@@ -1,0 +1,33 @@
+{
+  "name": "polyasync",
+  "version": "1.0.0",
+  "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
+  "main": "async.umd.js",
+  "jsnext:main": "async.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexbruno/polyasync.git"
+  },
+  "keywords": [
+    "async",
+    "promise",
+    "fetch",
+    "javascript"
+  ],
+  "author": "Alex Bruno <webmaster@alexbruno.net.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexbruno/polyasync/issues"
+  },
+  "homepage": "https://github.com/alexbruno/polyasync#readme",
+  "scripts": {
+    "build": "bower i && rollup -c && node replace && npm run minify",
+    "minify": "uglifyjs -cmo async.min.js -- async.umd.js"
+  },
+  "devDependencies": {
+    "replace-in-file": "latest",
+    "rollup": "latest",
+    "rollup-plugin-buble": "latest",
+    "uglify-js": "latest"
+  }
+}
