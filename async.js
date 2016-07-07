@@ -1,4 +1,4 @@
-import type from './bower_components/truetype/truetype.js'
+import ttype from './bower_components/truetype/truetype.js'
 import './bower_components/es6-promise/es6-promise.min.js'
 import './bower_components/fetch/fetch.js'
 
@@ -9,11 +9,12 @@ let async = {
 
 	fetch(url, cfg = {}) {
 		if (cfg.hasOwnProperty('body'))
-			if (type(cfg.body).instance('Object')) {
-				cfg.headers = cfg.headers || {}
-				cfg.headers['Accept'] = 'application/json'
-				cfg.headers['Content-Type'] = 'application/json'
-				cfg.body = JSON.stringify(cfg.body)
+			if (ttype(cfg.body).instance('Object')) {
+				let form = new FormData
+				for (let k in cfg.body)
+					if (cfg.body.hasOwnProperty(k))
+						form.append(k, cfg.body[k])
+				cfg.body = form
 			}
 
 		return fetch(url, cfg).then(resp => {

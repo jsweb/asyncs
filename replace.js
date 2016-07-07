@@ -3,11 +3,11 @@ let replace = require('replace-in-file'),
 	targets = [{
 		files: 'async.umd.js',
 		replace: '}).call(undefined)',
-		with: '}).call(type(self).isDefined() ? self : this)'
+		with: '}).call(ttype(self).isDefined() ? self : this)'
 	}, {
 		files: 'async.umd.js',
 		replace: "typeof self !== 'undefined' ? self : undefined",
-		with: 'type(self).isDefined() ? self : this'
+		with: 'ttype(self).isDefined() ? self : this'
 	}]
 
 batchReplace(targets)

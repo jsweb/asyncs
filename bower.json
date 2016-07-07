@@ -19,7 +19,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "replace.js",
+    "rollup.config.js"
   ],
   "devDependencies": {
     "es6-promise": "latest",
