@@ -1,31 +1,32 @@
 {
-  "name": "polyasync",
-  "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
-  "main": "async.umd.js",
-  "jsnext:main": "async.js",
-  "authors": [
-    "Alex Bruno <webmaster@alexbruno.net.br>"
-  ],
-  "license": "MIT",
-  "keywords": [
-    "async",
-    "promise",
-    "fetch",
-    "javascript"
-  ],
-  "homepage": "https://github.com/alexbruno/polyasync",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests",
-    "replace.js",
-    "rollup.config.js"
-  ],
-  "devDependencies": {
-    "es6-promise": "latest",
-    "fetch": "latest",
-    "truetype": "latest"
-  }
+	"name": "polyasync",
+	"description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
+	"main": "async.umd.js",
+	"jsnext:main": "async.js",
+	"authors": [
+		"Alex Bruno <webmaster@alexbruno.net.br>"
+	],
+	"license": "MIT",
+	"keywords": [
+		"async",
+		"promise",
+		"fetch",
+		"javascript"
+	],
+	"homepage": "https://github.com/alexbruno/polyasync",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests",
+		"replace.js",
+		"rollup.config.js"
+	],
+	"devDependencies": {
+		"es6-promise": "latest",
+		"fetch": "latest",
+		"truetype": "latest",
+		"queryfetch": "latest"
+	}
 }

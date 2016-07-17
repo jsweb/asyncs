@@ -1,4 +1,5 @@
 import ttype from './bower_components/truetype/truetype.js'
+import param from './bower_components/queryfetch/queryfetch.js'
 import './bower_components/es6-promise/es6-promise.min.js'
 import './bower_components/fetch/fetch.js'
 
@@ -8,14 +9,18 @@ let async = {
 	},
 
 	fetch(url, cfg = {}) {
+		cfg.method = cfg.method || 'get'
+
 		if (cfg.hasOwnProperty('body'))
-			if (ttype(cfg.body).instance('Object')) {
-				let form = new FormData
-				for (let k in cfg.body)
-					if (cfg.body.hasOwnProperty(k))
-						form.append(k, cfg.body[k])
-				cfg.body = form
-			}
+			if (ttype(cfg.body).isObject())
+				if (cfg.method === 'get') {
+					let qs = param.serialize(cfg.body)
+					url += `?${qs}`
+					delete cfg.body
+				} else {
+					let form = param.form(cfg.body)
+					cfg.body = form
+				}
 
 		return fetch(url, cfg).then(resp => {
 			if (resp.ok && resp.status >= 200 && resp.status < 300)
