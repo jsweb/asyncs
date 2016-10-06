@@ -4,7 +4,7 @@
 	"main": "async.umd.js",
 	"jsnext:main": "async.js",
 	"authors": [
-		"Alex Bruno <webmaster@alexbruno.net.br>"
+		"Alex Bruno <master@conext.online>"
 	],
 	"license": "MIT",
 	"keywords": [
