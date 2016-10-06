@@ -1,9 +1,9 @@
-import ttype from './bower_components/truetype/truetype.js'
+import tp from './bower_components/truetype/truetype.js'
+import param from './bower_components/queryfetch/queryfetch.js'
 import './bower_components/es6-promise/es6-promise.min.js'
 import './bower_components/fetch/fetch.js'
-import param from './bower_components/queryfetch/queryfetch.js'
 
-let async = {
+const async = {
 	promise(fn) {
 		return new Promise(fn)
 	},
@@ -12,7 +12,7 @@ let async = {
 		cfg.method = cfg.method || 'get'
 
 		if (cfg.hasOwnProperty('body'))
-			if (ttype(cfg.body).isObject())
+			if (tp(cfg.body).isObject())
 				if (cfg.method === 'get') {
 					let qs = param.serialize(cfg.body)
 					url += `?${qs}`

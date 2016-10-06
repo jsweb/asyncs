@@ -1,13 +1,15 @@
 let replace = require('replace-in-file'),
-	batchReplace = (fs) => fs.length ? replace(fs.pop(), e => batchReplace(fs)) : 1,
+	batchReplace = tg => tg.length ?
+	replace(tg.pop(), e => batchReplace(tg)) :
+	console.log('Replace OK'),
 	targets = [{
 		files: 'async.umd.js',
 		replace: '}).call(undefined)',
-		with: '}).call(ttype(self).isDefined() ? self : this)'
+		with: '}).call(tp(self).isDefined() ? self : this)'
 	}, {
 		files: 'async.umd.js',
 		replace: "typeof self !== 'undefined' ? self : undefined",
-		with: 'ttype(self).isDefined() ? self : this'
+		with: 'tp(self).isDefined() ? self : this'
 	}]
 
 batchReplace(targets)
