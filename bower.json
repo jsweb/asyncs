@@ -17,11 +17,9 @@
 	"ignore": [
 		"**/.*",
 		"node_modules",
-		"bower_components",
+		"jspm_packages",
 		"test",
-		"tests",
-		"replace.js",
-		"rollup.config.js"
+		"tests"
 	],
 	"devDependencies": {
 		"es6-promise": "latest",

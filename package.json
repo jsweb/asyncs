@@ -21,13 +21,23 @@
   },
   "homepage": "https://github.com/alexbruno/polyasync#readme",
   "scripts": {
-    "build": "bower i && rollup -c && node replace && npm run minify",
-    "minify": "uglifyjs -cmo async.min.js -- async.umd.js"
+    "bundle": "jspm bundle-sfx async.js async.umd.js --format umd --skip-source-maps --minify",
+    "postinstall": "jspm i && npm run bundle"
   },
   "devDependencies": {
-    "replace-in-file": "latest",
-    "rollup": "latest",
-    "rollup-plugin-buble": "latest",
-    "uglify-js": "latest"
+    "jspm": "^0.16.48"
+  },
+  "jspm": {
+    "dependencies": {
+      "fetch": "npm:whatwg-fetch@^2.0.1",
+      "promise": "npm:promise-polyfill@^6.0.2",
+      "queryfetch": "npm:queryfetch@^1.1.1",
+      "truetype": "npm:truetype@^1.2.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
   }
 }
