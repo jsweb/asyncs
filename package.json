@@ -25,12 +25,12 @@
     "postinstall": "jspm i && npm run bundle"
   },
   "devDependencies": {
-    "jspm": "^0.16.48"
+    "jspm": "latest"
   },
   "jspm": {
     "dependencies": {
-      "fetch": "npm:whatwg-fetch@^2.0.1",
-      "promise": "npm:promise-polyfill@^6.0.2",
+      "fetch": "github:github/fetch@^2.0.1",
+      "promise": "github:taylorhakes/promise-polyfill@^6.0.2",
       "queryfetch": "npm:queryfetch@^1.1.1",
       "truetype": "npm:truetype@^1.2.0"
     },

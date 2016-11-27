@@ -17,8 +17,8 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.7",
-    "fetch": "npm:whatwg-fetch@2.0.1",
-    "promise": "npm:promise-polyfill@6.0.2",
+    "fetch": "github:github/fetch@2.0.1",
+    "promise": "github:taylorhakes/promise-polyfill@6.0.2",
     "queryfetch": "npm:queryfetch@1.1.1",
     "truetype": "npm:truetype@1.2.0",
     "github:jspm/nodelibs-assert@0.1.0": {
