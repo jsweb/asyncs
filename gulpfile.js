@@ -20,9 +20,10 @@ const gulp = require('gulp'),
 		},
 		use: [nib(), axis(), jeet(), rupture(), autoprefixer()]
 	},
-	bundle = (entry, dest, module, format, map) => {
+	bundle = (entry, dest, format, mod, map) => {
 		return rollup({
 			entry,
+			context: 'window',
 			plugins: [
 				bubble(),
 				uglify(),
@@ -38,9 +39,9 @@ const gulp = require('gulp'),
 			js.write({
 				dest,
 				format,
-				moduleId: module,
-				moduleName: module,
-				sourceMap: map,
+				moduleId: mod,
+				moduleName: mod,
+				sourceMap: map
 			})
 			return system.notify({
 				title: 'Gulp',
@@ -51,13 +52,14 @@ const gulp = require('gulp'),
 	}
 
 gulp.task('default', ['cache', 'watch', 'server'])
+gulp.task('deploy', ['imagemin', 'stylus', 'pug', 'web'])
 
 //Image min
 gulp.task('imagemin', done => {
 	return gulp.src('web/img/*')
 		.pipe(plg.cached('imagemin'))
 		.pipe(plg.imagemin())
-		.pipe(gulp.dest('web'))
+		.pipe(gulp.dest('public'))
 		.pipe(plg.notify('Imagem otimizada para web'))
 })
 
@@ -68,7 +70,7 @@ gulp.task('stylus', done => {
 		.pipe(plg.sourcemaps.init())
 		.pipe(plg.stylus(stylcfg))
 		.pipe(plg.sourcemaps.write())
-		.pipe(gulp.dest('web'))
+		.pipe(gulp.dest('public'))
 		.pipe(plg.notify('Stylus processado'))
 })
 
@@ -77,16 +79,16 @@ gulp.task('pug', done => {
 	return gulp.src('web/html/*.pug')
 		.pipe(plg.cached('pug'))
 		.pipe(plg.pug())
-		.pipe(gulp.dest('web'))
+		.pipe(gulp.dest('public'))
 		.pipe(plg.notify('Pug compilado'))
 })
 
 //Rollup
 gulp.task('lib', done => {
-	return bundle('async.js', 'async.umd.js', 'async', 'umd', false)
+	return bundle('async.js', 'async.umd.js', 'umd', 'async', false)
 })
-gulp.task('index', done => {
-	return bundle('web/js/index.js', 'web/index.js', 'index', 'iife', 'inline')
+gulp.task('web', done => {
+	return bundle('web/js/index.js', 'public/index.js', 'iife', 'index', 'inline')
 })
 
 //Cache
@@ -104,8 +106,8 @@ gulp.task('cache', done => {
 
 //Watch
 gulp.task('watch', done => {
-	gulp.watch('async.js', ['lib'])
-	gulp.watch('web/js/index.js', ['index'])
+	gulp.watch('async.js', ['lib', 'web'])
+	gulp.watch('web/js/index.js', ['web'])
 
 	gulp.watch('web/css/*.styl', ['stylus'])
 	gulp.watch('web/html/*.pug', ['pug'])
@@ -120,7 +122,7 @@ gulp.task('watch', done => {
 
 //Live server
 gulp.task('server', done => {
-	let srv = server.static('/web', 8888)
+	let srv = server.static('/public', 8888)
 	srv.start()
-	gulp.watch('web/*', file => srv.notify(file))
+	gulp.watch('public/*', file => srv.notify(file))
 })

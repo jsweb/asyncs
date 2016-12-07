@@ -20,9 +20,11 @@
     "url": "https://gitlab.com/alexbruno/polyasync/issues"
   },
   "homepage": "https://gitlab.com/alexbruno/polyasync#readme",
-  "scripts": {
-    "bundle": "gulp lib",
-    "build": "npm run bundle"
+  "dependencies": {
+    "promise-polyfill": "latest",
+    "queryfetch": "latest",
+    "truetype": "latest",
+    "whatwg-fetch": "latest"
   },
   "devDependencies": {
     "autoprefixer-stylus": "latest",
@@ -38,16 +40,12 @@
     "gulp-stylus": "latest",
     "jeet": "latest",
     "nib": "latest",
-    "promise-polyfill": "latest",
-    "queryfetch": "latest",
     "rollup": "latest",
     "rollup-plugin-buble": "latest",
     "rollup-plugin-commonjs": "latest",
     "rollup-plugin-node-resolve": "latest",
     "rollup-plugin-uglify": "latest",
     "rupture": "latest",
-    "truetype": "latest",
-    "vue": "latest",
-    "whatwg-fetch": "latest"
+    "vue": "latest"
   }
 }
