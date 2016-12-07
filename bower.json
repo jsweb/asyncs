@@ -17,14 +17,7 @@
 	"ignore": [
 		"**/.*",
 		"node_modules",
-		"jspm_packages",
 		"test",
 		"tests"
-	],
-	"devDependencies": {
-		"es6-promise": "latest",
-		"fetch": "latest",
-		"truetype": "latest",
-		"queryfetch": "latest"
-	}
+	]
 }

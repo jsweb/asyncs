@@ -25,19 +25,34 @@
     "postinstall": "jspm i && npm run bundle"
   },
   "devDependencies": {
-    "jspm": "latest"
+    "autoprefixer-stylus": "latest",
+    "axis": "latest",
+    "gulp": "latest",
+    "gulp-cached": "latest",
+    "gulp-imagemin": "latest",
+    "gulp-live-server": "latest",
+    "gulp-load-plugins": "latest",
+    "gulp-notify": "latest",
+    "gulp-pug": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-stylus": "latest",
+    "jeet": "latest",
+    "nib": "latest",
+    "promise-polyfill": "latest",
+    "queryfetch": "latest",
+    "rollup": "latest",
+    "rollup-plugin-buble": "latest",
+    "rollup-plugin-commonjs": "latest",
+    "rollup-plugin-node-resolve": "latest",
+    "rollup-plugin-uglify": "latest",
+    "rupture": "latest",
+    "truetype": "latest",
+    "vue": "latest",
+    "whatwg-fetch": "latest"
   },
-  "jspm": {
-    "dependencies": {
-      "fetch": "github:github/fetch@^2.0.1",
-      "promise": "github:taylorhakes/promise-polyfill@^6.0.2",
-      "queryfetch": "npm:queryfetch@^1.1.1",
-      "truetype": "npm:truetype@^1.2.0"
-    },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
-    }
+  "scripts": {
+    "bundle": "gulp lib",
+    "build": "npm run bundle",
+    "postinstall": "npm run build"
   }
 }

@@ -1,7 +1,7 @@
 import check from 'truetype'
 import param from 'queryfetch'
-import 'promise'
-import 'fetch'
+import 'promise-polyfill'
+import 'whatwg-fetch'
 
 const async = {
 	promise(fn) {
