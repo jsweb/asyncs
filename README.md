@@ -43,7 +43,7 @@ require(['polyasync'], (polyasync) => {
 ### Global
 
 ```html
-<script src="path/to/polyasync.min.js"></script>
+<script src="path/to/polyasync.umd.js"></script>
 ```
 
 ## Methods
