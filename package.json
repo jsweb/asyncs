@@ -22,8 +22,7 @@
   "homepage": "https://gitlab.com/alexbruno/polyasync#readme",
   "scripts": {
     "bundle": "gulp lib",
-    "build": "npm run bundle",
-    "postinstall": "npm run build"
+    "build": "npm run bundle"
   },
   "devDependencies": {
     "autoprefixer-stylus": "latest",
