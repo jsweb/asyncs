@@ -6,7 +6,7 @@
   "jsnext:main": "async.js",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/alexbruno/polyasync.git"
+    "url": "git+https://gitlab.com/conext/polyasync.git"
   },
   "keywords": [
     "async",
@@ -17,9 +17,9 @@
   "author": "Alex Bruno <master@conext.online>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/alexbruno/polyasync/issues"
+    "url": "https://gitlab.com/conext/polyasync/issues"
   },
-  "homepage": "https://gitlab.com/alexbruno/polyasync#readme",
+  "homepage": "https://gitlab.com/conext/polyasync",
   "dependencies": {
     "promise-polyfill": "latest",
     "queryfetch": "latest",
