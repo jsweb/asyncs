@@ -2,8 +2,11 @@ import check from 'truetype'
 import param from 'queryfetch'
 import 'promise-polyfill'
 import 'whatwg-fetch'
+import 'setimmediate'
 
 const async = {
+	immediate: setImmediate,
+
 	promise(fn) {
 		return new Promise(fn)
 	},

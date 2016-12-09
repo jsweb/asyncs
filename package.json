@@ -46,6 +46,7 @@
     "rollup-plugin-node-resolve": "latest",
     "rollup-plugin-uglify": "latest",
     "rupture": "latest",
+    "setimmediate": "^1.0.5",
     "vue": "latest"
   }
 }
