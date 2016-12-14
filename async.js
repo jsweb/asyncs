@@ -12,18 +12,17 @@ const async = {
 	},
 
 	fetch(url, cfg = {}) {
-		cfg.method = cfg.method || 'get'
+		cfg.method = cfg.method ? cfg.method.toLowerCase() : 'get'
 
-		if (cfg.hasOwnProperty('body'))
-			if (check(cfg.body).isObject())
-				if (cfg.method === 'get') {
-					let qs = param.serialize(cfg.body)
-					url += `?${qs}`
-					delete cfg.body
-				} else {
-					let form = param.form(cfg.body)
-					cfg.body = form
-				}
+		if (cfg.hasOwnProperty('body')) {
+			if (cfg.method === 'get') {
+				let qs = param.serialize(cfg.body)
+				url += `?${qs}`
+				delete cfg.body
+			} else {
+				cfg.body = param.form(cfg.body)
+			}
+		}
 
 		return fetch(url, cfg).then(resp => {
 			if (resp.ok && resp.status >= 200 && resp.status < 300)
