@@ -4,12 +4,14 @@ import 'promise-polyfill'
 import 'whatwg-fetch'
 import 'setimmediate'
 
-const async = {
-	immediate: setImmediate,
+class PolyAsync {
+	immediate(...args) {
+		return setImmediate.apply(args)
+	}
 
 	promise(fn) {
 		return new Promise(fn)
-	},
+	}
 
 	fetch(url, cfg = {}) {
 		cfg.method = cfg.method ? cfg.method.toLowerCase() : 'get'
@@ -32,45 +34,45 @@ const async = {
 			error.response = resp
 			throw error
 		})
-	},
+	}
 
 	json(url, cfg) {
-		return async.fetch(url, cfg).then(resp => resp.json())
-	},
+		return this.fetch(url, cfg).then(resp => resp.json())
+	}
 
 	text(url, cfg) {
-		return async.fetch(url, cfg).then(resp => resp.text())
-	},
+		return this.fetch(url, cfg).then(resp => resp.text())
+	}
 
 	bool(url, cfg) {
-		return async.text(url, cfg).then(JSON.parse).then(Boolean)
-	},
+		return this.text(url, cfg).then(JSON.parse).then(Boolean)
+	}
 
 	num(url, cfg) {
-		return async.text(url, cfg).then(Number)
-	},
+		return this.text(url, cfg).then(Number)
+	}
 
 	float(url, cfg) {
-		return async.num(url, cfg).then(parseFloat)
-	},
+		return this.num(url, cfg).then(parseFloat)
+	}
 
 	int(url, cfg) {
-		return async.num(url, cfg).then(parseInt)
-	},
+		return this.num(url, cfg).then(parseInt)
+	}
 
 	xml(url, cfg) {
-		return async.text(url, cfg).then(text => {
+		return this.text(url, cfg).then(text => {
 			let dom = new DOMParser
 			return dom.parseFromString(text, 'application/xml')
 		})
-	},
+	}
 
 	html(url, cfg) {
-		return async.text(url, cfg).then(text => {
+		return this.text(url, cfg).then(text => {
 			let dom = new DOMParser
 			return dom.parseFromString(text, 'text/html')
 		})
 	}
 }
 
-export default async
+export default new PolyAsync
