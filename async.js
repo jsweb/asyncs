@@ -26,7 +26,7 @@ class PolyAsync {
 			}
 		}
 
-		return fetch(url, cfg).then(resp => {
+		return self.fetch(url, cfg).then(resp => {
 			if (resp.ok && resp.status >= 200 && resp.status < 300)
 				return resp
 
