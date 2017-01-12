@@ -1,3 +1,3 @@
-import async from '../../async'
+console.dir(polyasync)
 
-window.async = async
+polyasync.html('/').then(html => console.dir(html))

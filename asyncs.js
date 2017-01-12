@@ -1,5 +1,4 @@
-import check from 'truetype'
-import param from 'queryfetch'
+import qs from 'queryfetch'
 import 'promise-polyfill'
 import 'whatwg-fetch'
 import 'setimmediate'
@@ -18,11 +17,11 @@ class PolyAsync {
 
 		if (cfg.hasOwnProperty('body')) {
 			if (cfg.method === 'get') {
-				let qs = param.serialize(cfg.body)
-				url += `?${qs}`
+				let query = qs.serialize(cfg.body)
+				url += `?${query}`
 				delete cfg.body
 			} else {
-				cfg.body = param.form(cfg.body)
+				cfg.body = qs.form(cfg.body)
 			}
 		}
 
@@ -62,17 +61,17 @@ class PolyAsync {
 
 	xml(url, cfg) {
 		return this.text(url, cfg).then(text => {
-			let dom = new DOMParser
+			let dom = new DOMParser()
 			return dom.parseFromString(text, 'application/xml')
 		})
 	}
 
 	html(url, cfg) {
 		return this.text(url, cfg).then(text => {
-			let dom = new DOMParser
+			let dom = new DOMParser()
 			return dom.parseFromString(text, 'text/html')
 		})
 	}
 }
 
-export default new PolyAsync
+export default new PolyAsync()

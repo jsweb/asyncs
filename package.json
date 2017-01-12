@@ -2,8 +2,8 @@
   "name": "polyasync",
   "version": "1.5.3",
   "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
-  "main": "async.umd.js",
-  "jsnext:main": "async.js",
+  "main": "asyncs.umd.js",
+  "jsnext:main": "asyncs.js",
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/conext/polyasync.git"
@@ -24,7 +24,6 @@
     "promise-polyfill": "latest",
     "queryfetch": "latest",
     "setimmediate": "latest",
-    "truetype": "latest",
     "whatwg-fetch": "latest"
   },
   "devDependencies": {
