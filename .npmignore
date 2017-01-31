@@ -38,4 +38,5 @@ node_modules
 # Custom
 web
 public
+.vscode
 gulpfile.js

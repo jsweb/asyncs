@@ -21,11 +21,22 @@ class PolyAsync {
 				url += `?${query}`
 				delete cfg.body
 			} else {
-				cfg.body = qs.form(cfg.body)
+                let headers = cfg.headers || {},
+                    content = headers['Content-type']
+                switch (content) {
+                    case 'application/json':
+                        cfg.body = JSON.stringify(cfg.body)
+                        break
+                    case 'application/x-www-form-urlencoded':
+                        cfg.body = qs.serialize(cfg.body)
+                        break
+                    default:
+                        cfg.body = qs.form(cfg.body)
+                }
 			}
 		}
 
-		return self.fetch(url, cfg).then(resp => {
+		return fetch(url, cfg).then(resp => {
 			if (resp.ok && resp.status >= 200 && resp.status < 300)
 				return resp
 
