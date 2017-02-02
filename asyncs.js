@@ -1,11 +1,11 @@
 import Promise from 'promise-polyfill'
 import qs from 'queryfetch'
-import 'whatwg-fetch'
 import 'setimmediate'
+import 'whatwg-fetch'
 
 class PolyAsync {
 	immediate(...args) {
-		return setImmediate.apply(args)
+		return setImmediate.apply(this, args)
 	}
 
 	promise(fn) {
