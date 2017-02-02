@@ -1,5 +1,5 @@
+import Promise from 'promise-polyfill'
 import qs from 'queryfetch'
-import 'promise-polyfill'
 import 'whatwg-fetch'
 import 'setimmediate'
 
