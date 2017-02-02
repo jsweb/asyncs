@@ -1,6 +1,6 @@
 {
   "name": "polyasync",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
   "main": "asyncs.umd.js",
   "jsnext:main": "asyncs.js",
