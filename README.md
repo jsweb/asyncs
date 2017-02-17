@@ -46,6 +46,12 @@ require(['polyasync'], (polyasync) => {
 <script src="path/to/polyasync.umd.js"></script>
 ```
 
+It's also possible to get it from the great UNPKG CDN:
+
+```html
+<script src="https://unpkg.com/polyasync"></script>
+```
+
 ## Methods
 
 ### polyasync.immadiate(fn, ...args)

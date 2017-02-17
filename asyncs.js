@@ -1,5 +1,5 @@
 import Promise from 'promise-polyfill'
-import qs from 'queryfetch'
+import qf from 'queryfetch'
 import 'setimmediate'
 import 'whatwg-fetch'
 
@@ -17,7 +17,7 @@ class PolyAsync {
 
 		if (cfg.hasOwnProperty('body')) {
 			if (cfg.method === 'get') {
-				let query = qs.serialize(cfg.body)
+				let query = qf(cfg.body).serialize()
 				url += `?${query}`
 				delete cfg.body
 			} else {
@@ -25,13 +25,13 @@ class PolyAsync {
                     content = headers['Content-type']
                 switch (content) {
                     case 'application/json':
-                        cfg.body = JSON.stringify(cfg.body)
+                        cfg.body = cfg.body instanceof Object ? JSON.stringify(cfg.body) : cfg.body
                         break
                     case 'application/x-www-form-urlencoded':
-                        cfg.body = qs.serialize(cfg.body)
+                        cfg.body = qf(cfg.body).serialize()
                         break
                     default:
-                        cfg.body = qs.form(cfg.body)
+                        cfg.body = qf(cfg.body).form()
                 }
 			}
 		}
