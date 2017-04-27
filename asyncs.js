@@ -85,4 +85,4 @@ class PolyAsync {
 	}
 }
 
-export default new PolyAsync()
+export default new PolyAsync

@@ -85,9 +85,7 @@ gulp.task('pug', done => {
 
 //Rollup
 gulp.task('lib', done => {
-	return bundle('asyncs.js', 'asyncs.umd.js', 'umd', 'polyasync', false).then(b => {
-        gulp.src('asyncs.umd.js').pipe(gulp.dest('public'))
-    })
+	return bundle('asyncs.js', 'asyncs.umd.js', 'umd', 'polyasync', false)
 })
 gulp.task('web', done => {
 	return bundle('web/js/index.js', 'public/index.js', 'iife', 'index', 'inline')
