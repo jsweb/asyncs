@@ -2,8 +2,8 @@
   "name": "polyasync",
   "version": "1.5.9",
   "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
-  "main": "asyncs.umd.js",
-  "jsnext:main": "asyncs.js",
+  "main": "asyncs.js",
+  "jsnext:main": "asyncs.jsx",
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/infodigital/polyasync.git"

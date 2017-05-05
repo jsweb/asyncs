@@ -85,7 +85,7 @@ gulp.task('pug', done => {
 
 //Rollup
 gulp.task('lib', done => {
-	return bundle('asyncs.js', 'asyncs.umd.js', 'umd', 'polyasync', false)
+	return bundle('asyncs.jsx', 'asyncs.js', 'umd', 'polyasync', false)
 })
 gulp.task('web', done => {
 	return bundle('web/js/index.js', 'public/index.js', 'iife', 'index', 'inline')
@@ -106,7 +106,7 @@ gulp.task('cache', done => {
 
 //Watch
 gulp.task('watch', done => {
-	gulp.watch('asyncs.js', ['lib', 'web'])
+	gulp.watch('asyncs.jsx', ['lib', 'web'])
 	gulp.watch('web/js/index.js', ['web'])
 
 	gulp.watch('web/css/*.styl', ['stylus'])
