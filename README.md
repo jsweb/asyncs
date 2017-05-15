@@ -1,6 +1,8 @@
 # polyasync
 
-Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers
+Simple JS module for Promise and Fetch APIs, with some abstraction and a polyfill to support Fetch API when needed.
+
+Some global native resources are required, like `Promise`. If it is not available at your global enviroment you can use a polyfill to support it. I recomend [core-js](https://www.npmjs.com/package/core-js) for a complete global enviroment solution.
 
 ***
 
@@ -52,23 +54,23 @@ It's also possible to get it from the great UNPKG CDN:
 <script src="https://unpkg.com/polyasync"></script>
 ```
 
-## Methods
+## Basic methods
 
-### polyasync.immadiate(fn, ...args)
+### polyasync.asap(fn, ...args)
 
-Returns a `setImmediate` object if available or uses [setimmediate](https://www.npmjs.com/package/setimmediate) polyfill to emulate if needed.
+This method tries to return a `setImmediate` object if available at global enviroment, else it simply emulates with `setTimeout`.
 
 ```javascript
-polyasync.immadiate(executeMyFunc, arg1, arg2, ...args)
+polyasync.asap(executeMyFunc, arg1, arg2, ...args)
 ```
 
-### polyasync.promise(fn)
+### polyasync.exec(fn)
 
-Returns a `new Promise(fn)` object if available or uses [promise-polyfill](https://www.npmjs.com/package/promise-polyfill) to emulate if needed.
+Returns a `new Promise(fn)` object just for convenience.
 
 ```javascript
-polyasync.promise((done, fail) => {
-	// async code goes here
+polyasync.exec((done, fail) => {
+	// async code here
 }).then(done).catch(fail)
 ```
 
@@ -82,15 +84,17 @@ Fetch API returns a Promise that resolves on HTTP response or rejects on HTTP er
 polyasync.fetch(url, cfg).then(done).catch(fail)
 ```
 
-The `url` parameter is a simple URL string and the `cfg` parameter needs to be an object like any one used for Fetch API itself. But, some little and useful abstractions are applied to simplify **polysync** usage.
+The `url` parameter is a simple URL string and the `cfg` parameter needs to be an object like any used for Fetch API itself. But, some little and useful abstractions are applied to simplify **polysync** usage.
 
 If you want to send parameters on your request, just add a `body` in `cfg` containing a literal object with all your `key:value` pairs for any HTTP method request.
 
-If your request is a `GET`, then `cfg.body` will be serialized into a query string, else it will be converted to a FormData object.
+If your request is a `GET` (default), then `cfg.body` will be serialized into a query string, else it will be converted to a FormData object.
 
 **polyasync** uses [queryfetch](https://www.npmjs.com/package/queryfetch) to convert `cfg.body` into query string or FormData to send it with Fetch API request.
 
-It also tests the response and throw an error for any HTTP status >= 300. The error will cause a Promise rejection and can be catched.
+It is also possible to send JSON content. Just set a `cfg.headers` key `'Content-type'` with `'application/json'` value. Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
+
+**polyasync** tests HTTP response for any error status >= 300. The error will cause a Promise rejection and can be catched.
 
 ```javascript
 polyasync.fetch('an URL here', {
@@ -110,7 +114,7 @@ polyasync.fetch('an URL here', {
 
 ### polyasync.json(url, cfg)
 
-Makes a `polyasync.fetch` and waits a **JSON** return to parse and send the result to resolved response.
+Executes a `polyasync.fetch` and expects a **JSON** return to parse and send the result to resolved response.
 
 ```javascript
 polyasync.json(url, cfg)
@@ -120,7 +124,7 @@ polyasync.json(url, cfg)
 
 ### polyasync.text(url, cfg)
 
-Makes a `polyasync.fetch` and sends a **text** return to resolved response.
+Executes a `polyasync.fetch` and returns resolved response as **text**.
 
 ```javascript
 polyasync.text(url, cfg)
@@ -130,7 +134,7 @@ polyasync.text(url, cfg)
 
 ### polyasync.bool(url, cfg)
 
-Makes a `polyasync.text` and parses response as a **boolean** to return it to resolved response.
+Executes a `polyasync.text` and tries to parse the response as **boolean** to resolve it.
 
 ```javascript
 polyasync.bool(url, cfg)
@@ -140,7 +144,7 @@ polyasync.bool(url, cfg)
 
 ### polyasync.num(url, cfg)
 
-Makes a `polyasync.text` and parses response as a **number** to return it to resolved response.
+Executes a `polyasync.text` and tries to parse the response as **number** to resolve it.
 
 ```javascript
 polyasync.num(url, cfg)
@@ -150,7 +154,7 @@ polyasync.num(url, cfg)
 
 ### polyasync.float(url, cfg)
 
-Makes a `polyasync.num` and parses reponse as a **float** to return it to resolved response.
+Executes a `polyasync.num` and tries to parse the reponse as **float** to resolve it.
 
 ```javascript
 polyasync.float(url, cfg)
@@ -160,7 +164,7 @@ polyasync.float(url, cfg)
 
 ### polyasync.int(url, cfg)
 
-Makes a `polyasync.num` and parses reponse as an **integer** to return it to resolved response.
+Executes a `polyasync.num` and tries to parse the reponse as **integer** to resolve it.
 
 ```javascript
 polyasync.int(url, cfg)
@@ -170,7 +174,7 @@ polyasync.int(url, cfg)
 
 ### polyasync.xml(url, cfg)
 
-Makes a `polyasync.text` and parses reponse as a **XML** document to return it to resolved response.
+Executes a `polyasync.text` and tries to parse the reponse as **XML** document to resolve it.
 
 ```javascript
 polyasync.xml(url, cfg)
@@ -180,10 +184,9 @@ polyasync.xml(url, cfg)
 
 ### polyasync.html(url, cfg)
 
-Makes a `polyasync.text` and parses reponse as a **HTML** document to return it to resolved response.
+Executes a `polyasync.text` and tries to parse the reponse as **HTML** document to resolve it.
 
 ```javascript
 polyasync.html(url, cfg)
 	.then(html => console.dir(html))
 	.catch(e => console.error(e.message))
-```

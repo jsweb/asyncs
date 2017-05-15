@@ -1,15 +1,13 @@
-import Promise from 'promise-polyfill'
 import qf from 'queryfetch'
-import 'setimmediate'
 import 'whatwg-fetch'
 
 class PolyAsync {
-	immediate(...args) {
-		return setImmediate.apply(this, args)
+	exec(fn) {
+		return new Promise(fn)
 	}
 
-	promise(fn) {
-		return new Promise(fn)
+	asap(fn, ...args) {
+		return typeof setImmediate !== 'undefined' ? setImmediate(fn, ...args) : setTimeout(fn, 1, ...args)
 	}
 
 	fetch(url, cfg = {}) {
@@ -39,11 +37,15 @@ class PolyAsync {
 		return fetch(url, cfg).then(resp => {
 			if (resp.ok && resp.status >= 200 && resp.status < 300)
 				return resp
-
 			let error = new Error(resp.statusText)
 			error.response = resp
-			throw error
+			return Promise.reject(error)
 		})
+	}
+
+	all(urls, cfg, type = 'fetch') {
+		const req = url => this[type](url, cfg || {})
+		return Promise.all(urls.map(req))
 	}
 
 	json(url, cfg) {

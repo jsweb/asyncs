@@ -21,9 +21,7 @@
   },
   "homepage": "https://gitlab.com/infodigital/polyasync",
   "dependencies": {
-    "promise-polyfill": "latest",
     "queryfetch": "latest",
-    "setimmediate": "latest",
     "whatwg-fetch": "latest"
   },
   "devDependencies": {

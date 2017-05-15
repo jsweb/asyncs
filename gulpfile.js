@@ -122,7 +122,7 @@ gulp.task('watch', done => {
 
 //Live server
 gulp.task('server', done => {
-	let srv = server.static('/public', 8888)
+	let srv = server.static('/public', 8080)
 	srv.start()
 	gulp.watch('public/*', file => srv.notify(file))
 })
