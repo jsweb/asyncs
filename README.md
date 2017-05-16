@@ -190,3 +190,18 @@ Executes a `polyasync.text` and tries to parse the reponse as **HTML** document 
 polyasync.html(url, cfg)
 	.then(html => console.dir(html))
 	.catch(e => console.error(e.message))
+```
+
+### polyasync.all(urls, cfg, type)
+
+Executes a request for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define what **polyasync** action will request `urls`. Only `urls` argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` is `fetch`.
+
+It works with `Promise.all` and resolves an array with the results or rejects if any request fails.
+
+```javascript
+const urls = [...] // a list of urls
+
+polyasync.all(urls, {}, 'json')
+	.then(results => console.dir(results))
+	.catch(e => console.error(e.message))
+```
