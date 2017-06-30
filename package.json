@@ -6,7 +6,7 @@
   "jsnext:main": "asyncs.jsx",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/infodigital/polyasync.git"
+    "url": "git+https://gitlab.com/tecno.site/polyasync.git"
   },
   "keywords": [
     "async",
@@ -17,9 +17,9 @@
   "author": "Alex Bruno <git.alexbr@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/infodigital/polyasync/issues"
+    "url": "https://gitlab.com/tecno.site/polyasync/issues"
   },
-  "homepage": "https://gitlab.com/infodigital/polyasync",
+  "homepage": "https://gitlab.com/tecno.site/polyasync",
   "dependencies": {
     "queryfetch": "latest",
     "whatwg-fetch": "latest"
