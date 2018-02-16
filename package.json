@@ -2,8 +2,8 @@
   "name": "polyasync",
   "version": "1.6.2",
   "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
-  "main": "asyncs.js",
-  "jsnext:main": "asyncs.jsx",
+  "main": "polyasync.js",
+  "jsnext:main": "polyasync.esm.js",
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/tecnos/polyasync.git"
@@ -20,30 +20,17 @@
     "url": "https://gitlab.com/tecnos/polyasync/issues"
   },
   "homepage": "https://gitlab.com/tecnos/polyasync",
+  "scripts": {
+    "build": "rollup -c"
+  },
   "dependencies": {
-    "queryfetch": "latest",
-    "whatwg-fetch": "latest"
+    "queryfetch": "latest"
   },
   "devDependencies": {
-    "autoprefixer-stylus": "latest",
-    "axis": "latest",
-    "gulp": "latest",
-    "gulp-cached": "latest",
-    "gulp-imagemin": "latest",
-    "gulp-live-server": "latest",
-    "gulp-load-plugins": "latest",
-    "gulp-notify": "latest",
-    "gulp-pug": "latest",
-    "gulp-sourcemaps": "latest",
-    "gulp-stylus": "latest",
-    "jeet": "latest",
-    "nib": "latest",
     "rollup": "latest",
     "rollup-plugin-buble": "latest",
     "rollup-plugin-commonjs": "latest",
     "rollup-plugin-node-resolve": "latest",
-    "rollup-plugin-uglify": "latest",
-    "rupture": "latest",
-    "vue": "latest"
+    "rollup-plugin-uglify": "latest"
   }
 }
