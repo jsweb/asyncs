@@ -9,13 +9,20 @@ class PolyAsync {
     return new Promise(fn)
   }
 
-  execAll(tasks) {
-    tasks = tasks.map(t =>
+  tasks(array) {
+    return array.map(t =>
       t instanceof Promise ? t :
       t instanceof Function ? this.exec(t) :
       Promise.resolve(t)
     )
-    return Promise.all(tasks)
+  }
+
+  execAll(array) {
+    return Promise.all(this.tasks(array))
+  }
+
+  execRace(tasks) {
+    return Promise.race(this.tasks(array))
   }
 
   fetch(url, cfg = {}) {
@@ -56,6 +63,11 @@ class PolyAsync {
   fetchAll(urls, cfg, type = 'fetch') {
     const req = url => this[type](url, cfg)
     return this.execAll(urls.map(req))
+  }
+
+  fetchRace(urls, cfg, type = 'fetch') {
+    const req = url => this[type](url, cfg)
+    return this.execRace(urls.map(req))
   }
 
   json(url, cfg) {

@@ -81,7 +81,7 @@ If your request is a `GET` (default), then `cfg.body` will be serialized into a 
 
 **polyasync** uses [queryfetch](https://www.npmjs.com/package/queryfetch) to convert `cfg.body` into query string or FormData to send it with Fetch API request.
 
-It is also possible to send JSON content. Just set `content-type` to `application/json` at cfg.headers. Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
+It is also possible to send JSON content. Just set `content-type` to `application/json` at `cfg.headers`. Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
 
 **polyasync** tests HTTP response for any error status >= 300. The error will cause a Promise rejection and can be catched.
 
@@ -103,9 +103,49 @@ polyasync.fetch('my/url', {
 
 ### .execAll(array)
 
-**New in version 2**.
+**New in v2.0.0**.
 
-Returns a `Promise.all` object with a little abstraction, just for convenience.
+Returns a `Promise.all` object with a little abstraction, just for convenience. `Promise.all` returns a Promise which resolves with an Array of results after all Promises resolve, or rejects if any Promise rejects.
+
+The `array` argument will be processed by `.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
+
+```javascript
+const tasks = [
+  new Promise(fn),
+  fetch('my/url'),
+  Promise.resolve(any),
+  function(done, fail) { /* async code here */ },
+  function(done, fail) { /* more async code here */ }
+]
+
+polyasync.execAll(tasks).then(done).catch(fail)
+```
+
+### .execRace(array)
+
+**New in v2.1.0**.
+
+Returns a `Promise.race` object with a little abstraction, just for convenience. `Promise.race` returns a Promise which resolves or rejects with the fastest Promise in the `array`.
+
+The `array` argument will be processed by `.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
+
+```javascript
+const tasks = [
+  new Promise(fn),
+  fetch('my/url'),
+  Promise.resolve(any),
+  function(done, fail) { /* async code here */ },
+  function(done, fail) { /* more async code here */ }
+]
+
+polyasync.execRace(tasks).then(done).catch(fail)
+```
+
+### .tasks(array)
+
+**New in v2.1.0**
+
+Returns a new Array converting all non Promise items into Promises.
 
 The `array` argument can contain Promises or executor Functions for Promises. Anything else will be parsed with `Promise.resolve`.
 
@@ -115,10 +155,53 @@ const tasks = [
   fetch('my/url'),
   Promise.resolve(any),
   function(done, fail) { /* async code here */ },
+  function(done, fail) { /* more async code here */ },
+  'some string',
+  34e5,
   null
 ]
 
-polyasync.execAll(tasks).then(done).catch(fail)
+const promises = polyasync.tasks(tasks) // Now all items are Promises
+```
+
+### .fetchAll(urls, cfg, type)
+
+Replacing **.all(urls, cfg, type)** since **v2.0.0**.
+
+Executes a request for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **polyasync** action will request all `urls`.
+
+Only `urls` Array argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
+
+For `type` you can use fetch (default), json, text, bool, num, float, int, xml or html.
+
+It returns `.execAll(tasks)` and resolves with an array of results or rejects if any request fails.
+
+```javascript
+const urls = [...] // a list of urls
+
+polyasync.fetchAll(urls, null, 'json')
+	.then(results => console.dir(results))
+	.catch(e => console.error(e))
+```
+
+### .fetchRace(urls, cfg, type)
+
+**New in v2.1.0**
+
+Executes a race of requests for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **polyasync** action will request all `urls`.
+
+Only `urls` Array argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
+
+For `type` you can use fetch (default), json, text, bool, num, float, int, xml or html.
+
+It returns `.execRace(tasks)` and resolves with the fastest result or reject.
+
+```javascript
+const urls = [...] // a list of urls
+
+polyasync.fetchRace(urls, null, 'text')
+	.then(results => console.dir(results))
+	.catch(e => console.error(e))
 ```
 
 ### .json(url, cfg)
@@ -198,23 +281,5 @@ Executes a `polyasync.text` and tries to parse the reponse as **HTML** document.
 ```javascript
 polyasync.html(url, cfg)
 	.then(html => console.dir(html))
-	.catch(e => console.error(e))
-```
-
-### .fetchAll(urls, cfg, type)
-
-Replacing **.all(urls, cfg, type)**.
-
-Executes a request for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **polyasync** action will request all `urls`.
-
-Only `urls` argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
-
-It returns a `Promise.all` and resolves with an array of results or rejects if any request fails.
-
-```javascript
-const urls = [...] // a list of urls
-
-polyasync.all(urls, null, 'json')
-	.then(results => console.dir(results))
 	.catch(e => console.error(e))
 ```
