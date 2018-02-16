@@ -1,7 +1,7 @@
 {
   "name": "polyasync",
   "version": "2.0.0",
-  "description": "Simple JS module for Promise and Fetch APIs, with some abstraction and polyfills to support all browsers",
+  "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
   "main": "polyasync.js",
   "jsnext:main": "polyasync.esm.js",
   "repository": {
