@@ -38,15 +38,12 @@ class PolyAsync {
           content = Object.values(headers).find(k => /content-type/i.test(k)),
           type = headers[content]
 
-        switch (type) {
-          case 'application/json':
-            cfg.body = cfg.body instanceof Object ? JSON.stringify(cfg.body) : cfg.body
-            break
-          case 'application/x-www-form-urlencoded':
-            cfg.body = qf(cfg.body).serialize()
-            break
-          default:
-            cfg.body = qf(cfg.body).form()
+        if (type === 'application/json') {
+          cfg.body = cfg.body instanceof Object ? JSON.stringify(cfg.body) : cfg.body
+        } else if (type === 'application/x-www-form-urlencoded') {
+          cfg.body = qf(cfg.body).serialize()
+        } else {
+          cfg.body = qf(cfg.body).form()
         }
       }
     }
