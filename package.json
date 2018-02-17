@@ -1,6 +1,6 @@
 {
   "name": "polyasync",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
   "main": "polyasync.js",
   "jsnext:main": "polyasync.esm.js",
