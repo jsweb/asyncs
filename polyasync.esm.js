@@ -51,7 +51,7 @@ class PolyAsync {
     return fetch(url, cfg).then(resp => {
       if (resp.ok && resp.status >= 200 && resp.status < 300)
         return resp
-      let error = new Error(resp.statusText)
+      const error = new Error(resp.statusText)
       error.response = resp
       return Promise.reject(error)
     })
@@ -73,6 +73,10 @@ class PolyAsync {
 
   text(url, cfg) {
     return this.fetch(url, cfg).then(resp => resp.text())
+  }
+
+  blob(url, cfg) {
+    return this.fetch(url, cfg).then(resp => resp.blob())
   }
 
   bool(url, cfg) {
