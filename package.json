@@ -1,12 +1,12 @@
 {
-  "name": "polyasync",
+  "name": "@jsweb/asyncs",
   "version": "2.2.0",
   "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
-  "main": "polyasync.js",
-  "jsnext:main": "polyasync.esm.js",
+  "main": "dist/main.js",
+  "esnext": "src/main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/tecnos/polyasync.git"
+    "url": "git+https://github.com/jsweb/asyncs.git"
   },
   "keywords": [
     "async",
@@ -17,20 +17,27 @@
   "author": "Alex Bruno <git.alexbr@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/tecnos/polyasync/issues"
+    "url": "https://github.com/jsweb/asyncs/issues"
   },
-  "homepage": "https://gitlab.com/tecnos/polyasync",
+  "homepage": "https://github.com/jsweb/asyncs",
   "scripts": {
-    "build": "rollup -c"
-  },
-  "dependencies": {
-    "queryfetch": "latest"
+    "dist": "run-s dist:*",
+    "dist:build": "rollup -c",
+    "dist:minify": "minify dist -d dist",
+    "dist:banner": "concat src/author.js dist/main.js -o dist/main.js"
   },
   "devDependencies": {
-    "rollup": "latest",
-    "rollup-plugin-buble": "latest",
-    "rollup-plugin-commonjs": "latest",
-    "rollup-plugin-node-resolve": "latest",
-    "rollup-plugin-uglify": "latest"
+    "@babel/core": "^7.0.0",
+    "babel-minify": "^0.4.3",
+    "concat": "^1.0.3",
+    "npm-run-all": "^4.1.3",
+    "rollup": "^0.65.0",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.4.0"
+  },
+  "dependencies": {
+    "@jsweb/params": "^3.0.1",
+    "@jsweb/truetype": "^2.0.0"
   }
 }

@@ -1,17 +1,17 @@
 import common from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
-import buble from 'rollup-plugin-buble'
-import uglify from 'rollup-plugin-uglify'
+import babel from 'rollup-plugin-babel'
 
 export default {
-  input: 'polyasync.esm.js',
-  amd: {
-    id: 'polyasync'
-  },
+  input: 'src/main.js',
+  plugins: [
+    common(),
+    resolve(),
+    babel()
+  ],
   output: {
-    format: 'umd',
-    name: 'polyasync',
-    file: 'polyasync.js'
-  },
-  plugins: [common(), resolve(), buble(), uglify()]
+    file: 'dist/main.js',
+    name: 'asyncs',
+    format: 'umd'
+  }
 }

@@ -1,4 +1,4 @@
-# polyasync
+# @jsweb/asyncs
 
 Simple JS module for web applications to do async things using Promise, Fetch API and setImmediate.
 
@@ -9,105 +9,63 @@ Compatible with modern browsers. If you want to support older browsers, you will
 
 ***
 
-## Warning!
-
-Now **polysync** was upgraded to version 2 and there are breaking changes.
-
-- Fetch API polyfill was not included anymore. Modern browsers already have native support, if you need polyfill for old browsers, add it to your application.
-- Module filenames were changed. If you are using path to the files or Unpkg CDN complete URL version, it is necessary to update your path strings.
-- **.all(urls, cfg, type)** method was replaced by **.fetchAll(urls, cfg, type)** for semantic reasons like the brand new method **.execAll(urls, cfg, type)**
-
 ## Installation
 
-`npm i -S polyasync`
+`npm i -S @jsweb/asyncs`
 
 or
 
-`yarn add polyasync`
+`yarn add @jsweb/asyncs`
 
 or
 
 ```html
-<script src='https://unpkg.com/polyasync'></script>
+<script src='https://unpkg.com/@jsweb/asyncs'></script>
 ```
 
 ## Usage
 
 ### ES6
 
-`import polyasync from 'polyasync'`
+```javascript
+import asyncs from '@jsweb/asyncs'
+```
 
 ### CommonJS
 
-`const polyasync = require('polyasync')`
+```javascript
+const asyncs = require('@jsweb/asyncs')
+```
 
 ### Global
 
-When using via `script` tag, `polyasync` object will be global available.
+When using via CDN, `asyncs` object will be global available at window scope.
 
-## Basic methods
+## Methods
 
-### .asap(fn, ...args)
+### asyncs.asap(fn, ...args)
 
 This method tries to return a `setImmediate` object if available at global enviroment, else it simply emulates using `setTimeout`.
 
 ```javascript
-polyasync.asap(myFunction, arg1, arg2, ...args)
+asyncs.asap(myFunction, arg1, arg2, ...args)
 ```
 
-### .exec(fn)
+### asyncs.exec(fn)
 
 Returns a `new Promise(fn)` object just for convenience.
 
 ```javascript
-polyasync.exec((done, fail) => {
+asyncs.exec((done, fail) => {
 	// async code here
 }).then(done).catch(fail)
 ```
 
-### .fetch(url, cfg)
-
-Returns a Fetch API object. Fetch API returns a Promise which resolves on HTTP response or rejects on HTTP error.
-
-```javascript
-polyasync.fetch(url, cfg).then(done).catch(fail)
-```
-
-Arguments expected are the same for Fetch API itself. But, some little and useful abstractions are applied to simplify **polysync** usage.
-
-If you want to send parameters on your request, just add a `body` in `cfg` containing a literal object with all your `key:value` pairs for any HTTP method request.
-
-If your request is a `GET` (default), then `cfg.body` will be serialized into a query string, else it will be converted to a FormData object if necessary. So you can also send HTML Form or FormData object for not `GET` requests.
-
-**polyasync** uses [queryfetch](https://www.npmjs.com/package/queryfetch) to convert `cfg.body` into query string or FormData to send it with Fetch API request.
-
-It is also possible to send JSON content. Just set `content-type` to `application/json` at `cfg.headers`. Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
-
-**polyasync** tests HTTP response for any error status >= 300. The error will cause a Promise rejection and can be catched.
-
-```javascript
-polyasync.fetch('my/url', {
-	method: 'post',
-	body: {
-		foo: 'bar',
-		lorem: 'ipsum'
-	}
-}).then(resp => {
-	// do your magic
-}).catch(error => {
-	// or not...
-})
-```
-
-## Useful abstracted methods
-
-### .execAll(array)
-
-**New in v2.0.0**.
+### asyncs.execAll(array)
 
 Returns a `Promise.all` object with a little abstraction, just for convenience. `Promise.all` returns a Promise which resolves with an Array of results after all Promises resolve, or rejects if any Promise rejects.
 
-The `array` argument will be processed by `.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
+The `array` argument will be processed by `asyncs.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
 
 ```javascript
 const tasks = [
@@ -118,16 +76,14 @@ const tasks = [
   function(done, fail) { /* more async code here */ }
 ]
 
-polyasync.execAll(tasks).then(done).catch(fail)
+asyncs.execAll(tasks).then(done).catch(fail)
 ```
 
-### .execRace(array)
-
-**New in v2.1.0**.
+### asyncs.execRace(array)
 
 Returns a `Promise.race` object with a little abstraction, just for convenience. `Promise.race` returns a Promise which resolves or rejects with the fastest Promise in the `array`.
 
-The `array` argument will be processed by `.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
+The `array` argument will be processed by `asyncs.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
 
 ```javascript
 const tasks = [
@@ -138,12 +94,10 @@ const tasks = [
   function(done, fail) { /* more async code here */ }
 ]
 
-polyasync.execRace(tasks).then(done).catch(fail)
+asyncs.execRace(tasks).then(done).catch(fail)
 ```
 
-### .tasks(array)
-
-**New in v2.1.0**
+### asyncs.tasks(array)
 
 Returns a new Array converting all non Promise items into Promises.
 
@@ -161,125 +115,155 @@ const tasks = [
   null
 ]
 
-const promises = polyasync.tasks(tasks) // Now all items are Promises
+const promises = asyncs.tasks(tasks) // Now all items are Promises
 ```
 
-### .fetchAll(urls, cfg, type)
+### asyncs.fetch(url, cfg)
 
-Replacing **.all(urls, cfg, type)** since **v2.0.0**.
+Returns a Fetch API object which resolves on HTTP response or rejects on HTTP error.
 
-Executes a request for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **polyasync** action will request all `urls`.
+```javascript
+asyncs.fetch(url, cfg).then(done).catch(fail)
+```
+
+Arguments expected are the same for Fetch API itself. But, some little and useful abstractions are applied to simplify **@jsweb/asyncs** usage.
+
+If you want to send parameters on your request, just add a `body` in `cfg` containing a literal object with all your `key:value` pairs for any HTTP method request.
+
+If your request is a `GET` (default), then `cfg.body` will be serialized into a query string, else it will be converted into a FormData object if necessary. So you can also send HTML Form or FormData object for non `GET` requests.
+
+**@jsweb/asyncs** uses [@jsweb/params](https://www.npmjs.com/package/@jsweb/params) to convert `cfg.body` into query string or FormData to send it with Fetch API request.
+
+It is also possible to send JSON content. Just set `content-type` to `application/json` at `cfg.headers`. Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
+
+**@jsweb/asyncs** tests HTTP response for any error status >= 300. The error will cause a Promise rejection which can be catched.
+
+```javascript
+asyncs.fetch('my/url', {
+	method: 'post',
+	body: {
+		foo: 'bar',
+		lorem: 'ipsum'
+	}
+}).then(resp => {
+	// do your magic
+}).catch(error => {
+	// or not...
+})
+```
+
+### asyncs.fetchAll(urls, cfg, type)
+
+Executes a request for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **@jsweb/asyncs** action will request all `urls`.
 
 Only `urls` Array argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
 
 For `type` you can use fetch (default), json, text, bool, num, float, int, xml or html.
 
-It returns `.execAll(tasks)` and resolves with an array of results or rejects if any request fails.
+It returns `asyncs.execAll(tasks)` and resolves with an array of results or rejects if any request fails.
 
 ```javascript
 const urls = [...] // a list of urls
 
-polyasync.fetchAll(urls, null, 'json')
+asyncs.fetchAll(urls, null, 'json')
 	.then(results => console.dir(results))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
-### .fetchRace(urls, cfg, type)
+### asyncs.fetchRace(urls, cfg, type)
 
-**New in v2.1.0**
-
-Executes a race of requests for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **polyasync** action will request all `urls`.
+Executes a race of requests for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **@jsweb/asyncs** action will request all `urls`.
 
 Only `urls` Array argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
 
 For `type` you can use fetch (default), json, text, bool, num, float, int, xml or html.
 
-It returns `.execRace(tasks)` and resolves with the fastest result or reject.
+It returns `asyncs.execRace(tasks)` and resolves or rejects with the fastest result or error.
 
 ```javascript
 const urls = [...] // a list of urls
 
-polyasync.fetchRace(urls, null, 'text')
+asyncs.fetchRace(urls, null, 'text')
 	.then(results => console.dir(results))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
-### .json(url, cfg)
+### asyncs.json(url, cfg)
 
-Executes a `polyasync.fetch` and expects a **JSON** return to parse and return it to resolved response.
+Executes `asyncs.fetch` and tries to parse the response as **JSON**.
 
 ```javascript
-polyasync.json(url, cfg)
+asyncs.json(url, cfg)
 	.then(json => console.dir(json))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
-### .text(url, cfg)
+### asyncs.text(url, cfg)
 
-Executes a `polyasync.fetch` and returns resolved response as **text**.
+Executes `asyncs.fetch` and returns resolved response as **text**.
 
 ```javascript
-polyasync.text(url, cfg)
+asyncs.text(url, cfg)
 	.then(text => console.log(text))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
-### .bool(url, cfg)
+### asyncs.bool(url, cfg)
 
-Executes a `polyasync.text` and tries to parse the response as **boolean**.
+Executes `asyncs.text` and tries to parse the response as **boolean**.
 
 ```javascript
-polyasync.bool(url, cfg)
+asyncs.bool(url, cfg)
 	.then(bool => console.log(bool))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
-### .num(url, cfg)
+### asyncs.num(url, cfg)
 
-Executes a `polyasync.text` and tries to parse the response as **number**.
+Executes `asyncs.text` and tries to parse the response as **number**.
 
 ```javascript
-polyasync.num(url, cfg)
+asyncs.num(url, cfg)
 	.then(num => console.log(num))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
 ### .float(url, cfg)
 
-Executes a `polyasync.num` and tries to parse the reponse as **float**.
+Executes `asyncs.num` and tries to parse the reponse as **float**.
 
 ```javascript
-polyasync.float(url, cfg)
+asyncs.float(url, cfg)
 	.then(float => console.log(float))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
 ### .int(url, cfg)
 
-Executes a `polyasync.num` and tries to parse the reponse as **integer**.
+Executes `asyncs.num` and tries to parse the reponse as **integer**.
 
 ```javascript
-polyasync.int(url, cfg)
+asyncs.int(url, cfg)
 	.then(int => console.log(int))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
 ### .xml(url, cfg)
 
-Executes a `polyasync.text` and tries to parse the reponse as **XML** document.
+Executes `asyncs.text` and tries to parse the reponse as **XML** document.
 
 ```javascript
-polyasync.xml(url, cfg)
+asyncs.xml(url, cfg)
 	.then(xml => console.dir(xml))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
 
 ### .html(url, cfg)
 
-Executes a `polyasync.text` and tries to parse the reponse as **HTML** document.
+Executes `asyncs.text` and tries to parse the reponse as **HTML** document.
 
 ```javascript
-polyasync.html(url, cfg)
+asyncs.html(url, cfg)
 	.then(html => console.dir(html))
-	.catch(e => console.error(e))
+	.catch(err => console.error(err))
 ```
