@@ -1,6 +1,6 @@
 {
   "name": "@jsweb/asyncs",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
   "main": "dist/main.js",
   "esnext": "src/main.js",
