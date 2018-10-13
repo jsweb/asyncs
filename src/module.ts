@@ -15,7 +15,7 @@ const map: any = {
 /**
  * Excute any function asyncronously with any number of arguments.
  *
- * @export
+ * @export {function}
  * @param {function} fn
  * @param {arguments} args
  * @returns {Promise}

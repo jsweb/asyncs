@@ -3,7 +3,7 @@
 Simple JS module for Promise and Fetch APIs, with some useful abstraction
 
 **Create**: date 2016-06-25 03:14:48  
-**Modify**: date 2018-10-13 20:44:19  
+**Modify**: date 2018-10-13 21:05:27  
 **Version**: 3.0.2  
 **Author**: Alex Bruno <git.alexbr@outlook.com>  
 **Example**  
@@ -15,7 +15,7 @@ import { requestJSON, requestAll, requestRace } from '@jsweb/asyncs'
 ## exec(fn, ...args) ⇒ <code>Promise</code>
 Excute any function asyncronously with any number of arguments.
 
-**Export**:   
+**Export**: <code>function</code>  
 
 | Param | Type |
 | --- | --- |
