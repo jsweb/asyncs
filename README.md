@@ -3,7 +3,7 @@
 Simple JS module for Promise and Fetch APIs, with some useful abstraction
 
 **Create**: date 2016-06-25 03:14:48  
-**Modify**: date 2018-10-13 20:38:22  
+**Modify**: date 2018-10-13 20:43:08  
 **Version**: 3.0.1  
 **Author**: Alex Bruno <git.alexbr@outlook.com>  
 **Example**  
@@ -212,7 +212,7 @@ Execute a `request` expecting for a valid XML document response.
 
 HTTP errors response will cause a `Promise.reject`.
 
-**Export**:   
+**Export**: <code>function</code>  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -226,7 +226,7 @@ Execute a `request` expecting for any response and get it as HTML.
 
 HTTP errors response will cause a `Promise.reject`.
 
-**Export**:   
+**Export**: <code>function</code>  
 
 | Param | Type |
 | --- | --- |

@@ -262,7 +262,7 @@ export function requestNumber(url: string, cfg?: RequestInit): Promise<number> {
  *
  * HTTP errors response will cause a `Promise.reject`.
  *
- * @export
+ * @export {function}
  * @param {string} url
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
@@ -279,7 +279,7 @@ export function requestXML(url: string, cfg?: RequestInit): Promise<Document> {
  *
  * HTTP errors response will cause a `Promise.reject`.
  *
- * @export
+ * @export {function}
  * @param {string} url
  * @param {RequestInit} [cfg]
  * @returns {Promise}
