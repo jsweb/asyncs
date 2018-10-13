@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
   "main": "dist/umd.js",
-  "esnext": "dist/module.mjs",
+  "esnext": "dist/module.js",
   "module": "dist/module.mjs",
   "types": "dist/module.d.ts",
   "repository": {
