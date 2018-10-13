@@ -1,3 +1,11 @@
+src
+docs
+scripts
+mocha*
+netlify.toml
+rollup.config.js
+ts*.json
+
 # Logs
 logs
 *.log
@@ -34,9 +42,3 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
-
-# Custom
-web
-public
-.vscode
-gulpfile.js

@@ -1,269 +1,235 @@
-# @jsweb/asyncs
+# @jsweb/asyncs 
+ 
+Simple JS module for Promise and Fetch APIs, with some useful abstraction
 
-Simple JS module for web applications to do async things using Promise, Fetch API and setImmediate.
-
-Compatible with modern browsers. If you want to support older browsers, you will need polyfills for Promise and Fetch API. I recomend:
-
-- [promise-polyfill](https://www.npmjs.com/package/promise-polyfill)
-- [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch)
-
-***
-
-## Installation
-
-`npm i -S @jsweb/asyncs`
-
-or
-
-`yarn add @jsweb/asyncs`
-
-or
-
-```html
-<script src='https://unpkg.com/@jsweb/asyncs'></script>
+**Create**: date 2016-06-25 03:14:48  
+**Modify**: date 2018-10-13 20:28:22  
+**Version**: 2.2.1  
+**Author**: Alex Bruno <git.alexbr@outlook.com>  
+**Example**  
+```js
+import { requestJSON, requestAll, requestRace } from '@jsweb/asyncs'
 ```
+<a name="exec"></a>
 
-## Usage
+## exec(fn, ...args) ⇒ <code>Promise</code>
+Excute any function asyncronously with any number of arguments.
 
-### ES6
+**Export**:   
 
-```javascript
-import asyncs from '@jsweb/asyncs'
-```
+| Param | Type |
+| --- | --- |
+| fn | <code>function</code> | 
+| ...args | <code>arguments</code> | 
 
-### CommonJS
+<a name="task"></a>
 
-```javascript
-const asyncs = require('@jsweb/asyncs')
-```
+## task(input) ⇒ <code>Promise</code>
+Turn any input in a Promise to use is on asyncronous threads
 
-### Global
+**Export**: <code>function</code>  
 
-When using via CDN, `asyncs` object will be global available at window scope.
+| Param | Type |
+| --- | --- |
+| input | <code>\*</code> | 
 
-## Methods
+<a name="execAll"></a>
 
-### asyncs.asap(fn, ...args)
+## execAll(...args) ⇒ <code>Promise</code>
+Turn any number of arguments into asyncronous group to resolve only if all threads resolve.
 
-This method tries to return a `setImmediate` object if available at global enviroment, else it simply emulates using `setTimeout`.
+**Export**: <code>function</code>  
 
-```javascript
-asyncs.asap(myFunction, arg1, arg2, ...args)
-```
+| Param | Type |
+| --- | --- |
+| ...args | <code>arguments</code> | 
 
-### asyncs.exec(fn)
+<a name="execRace"></a>
 
-Returns a `new Promise(fn)` object just for convenience.
+## execRace(...args) ⇒ <code>Promise</code>
+Turn any number of arguments into asyncronous race to resolve or reject with the fastest thread.
 
-```javascript
-asyncs.exec((done, fail) => {
-	// async code here
-}).then(done).catch(fail)
-```
+**Export**: <code>function</code>  
 
-### asyncs.execAll(array)
+| Param | Type |
+| --- | --- |
+| ...args | <code>arguments</code> | 
 
-Returns a `Promise.all` object with a little abstraction, just for convenience. `Promise.all` returns a Promise which resolves with an Array of results after all Promises resolve, or rejects if any Promise rejects.
+<a name="asap"></a>
 
-The `array` argument will be processed by `asyncs.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
+## asap(fn, ...args) ⇒ <code>\*</code>
+Execute any function asyncronously As Soon As Possible with any number of arguments.
 
-```javascript
-const tasks = [
-  new Promise(fn),
-  fetch('my/url'),
-  Promise.resolve(any),
-  function(done, fail) { /* async code here */ },
-  function(done, fail) { /* more async code here */ }
-]
+**Export**: <code>function</code>  
 
-asyncs.execAll(tasks).then(done).catch(fail)
-```
+| Param | Type |
+| --- | --- |
+| fn | <code>function</code> | 
+| ...args | <code>arguments</code> | 
 
-### asyncs.execRace(array)
+<a name="request"></a>
 
-Returns a `Promise.race` object with a little abstraction, just for convenience. `Promise.race` returns a Promise which resolves or rejects with the fastest Promise in the `array`.
+## request(url, [cfg]) ⇒ <code>Promise</code>
+Execute asyncronous HTTP requests with configurable options.
 
-The `array` argument will be processed by `asyncs.tasks(array)` method before Promise execution to turn all non Promise items into Promises.
+It uses Fetch API with some useful abstractions.
 
-```javascript
-const tasks = [
-  new Promise(fn),
-  fetch('my/url'),
-  Promise.resolve(any),
-  function(done, fail) { /* async code here */ },
-  function(done, fail) { /* more async code here */ }
-]
+To send parameters on request, just add a `body` in `cfg` containing the object for any HTTP method request.
 
-asyncs.execRace(tasks).then(done).catch(fail)
-```
+GET requests (default), will serialize parameters into a query string.
 
-### asyncs.tasks(array)
+Other methods will convert parameters into FormData object if necessary.
 
-Returns a new Array converting all non Promise items into Promises.
+So you can also send HTML Form or FormData object for non GET requests.
 
-The `array` argument can contain Promises or executor Functions for Promises. Anything else will be parsed with `Promise.resolve`.
+It is also possible to send JSON content. Just set `content-type` to `application/json` at `cfg.headers`.
 
-```javascript
-const tasks = [
-  new Promise(fn),
-  fetch('my/url'),
-  Promise.resolve(any),
-  function(done, fail) { /* async code here */ },
-  function(done, fail) { /* more async code here */ },
-  'some string',
-  34e5,
-  null
-]
+Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
 
-const promises = asyncs.tasks(tasks) // Now all items are Promises
-```
+The promise returned also checks HTTP response. Any status >= 300 will cause a `Promise.reject`.
 
-### asyncs.fetch(url, cfg)
+**Export**: <code>function</code>  
 
-Returns a Fetch API object which resolves on HTTP response or rejects on HTTP error.
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-```javascript
-asyncs.fetch(url, cfg).then(done).catch(fail)
-```
+<a name="requestAll"></a>
 
-Arguments expected are the same for Fetch API itself. But, some little and useful abstractions are applied to simplify **@jsweb/asyncs** usage.
+## requestAll(urls, [cfg], [resp]) ⇒ <code>Promise</code>
+Use `execAll` to make a `request` for each `urls` using the same `cfg` and `resp` type for all.
 
-If you want to send parameters on your request, just add a `body` in `cfg` containing a literal object with all your `key:value` pairs for any HTTP method request.
+The returned Promise resolves only if all requests resolve.
 
-If your request is a `GET` (default), then `cfg.body` will be serialized into a query string, else it will be converted into a FormData object if necessary. So you can also send HTML Form or FormData object for non `GET` requests.
+If any request fails it will cause an entire `Promise.reject`.
 
-**@jsweb/asyncs** uses [@jsweb/params](https://www.npmjs.com/package/@jsweb/params) to convert `cfg.body` into query string or FormData to send it with Fetch API request.
+Possible response types are: response, json, text, blob, boolean, number, xml and html.
 
-It is also possible to send JSON content. Just set `content-type` to `application/json` at `cfg.headers`. Then your `cfg.body` literal object will be serialized using `JSON.stringify`.
+**Export**: <code>function</code>  
 
-**@jsweb/asyncs** tests HTTP response for any error status >= 300. The error will cause a Promise rejection which can be catched.
+| Param | Type | Default |
+| --- | --- | --- |
+| urls | <code>Array.&lt;string&gt;</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
+| [resp] | <code>string</code> | <code>&quot;&#x27;response&#x27;&quot;</code> | 
 
-```javascript
-asyncs.fetch('my/url', {
-	method: 'post',
-	body: {
-		foo: 'bar',
-		lorem: 'ipsum'
-	}
-}).then(resp => {
-	// do your magic
-}).catch(error => {
-	// or not...
-})
-```
+<a name="requestRace"></a>
 
-### asyncs.fetchAll(urls, cfg, type)
+## requestRace(urls, [cfg], [resp]) ⇒ <code>Promise</code>
+Use `execRace` to make a `request` race with all `urls` using the same `cfg` and `resp` type for all.
 
-Executes a request for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **@jsweb/asyncs** action will request all `urls`.
+The returned Promise resolves or rejects with the fastest request.
 
-Only `urls` Array argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
+Possible response types are: response, json, text, blob, boolean, number, xml and html.
 
-For `type` you can use fetch (default), json, text, bool, num, float, int, xml or html.
+**Export**: <code>function</code>  
 
-It returns `asyncs.execAll(tasks)` and resolves with an array of results or rejects if any request fails.
+| Param | Type | Default |
+| --- | --- | --- |
+| urls | <code>Array.&lt;string&gt;</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
+| [resp] | <code>string</code> | <code>&quot;&#x27;response&#x27;&quot;</code> | 
 
-```javascript
-const urls = [...] // a list of urls
+<a name="requestJSON"></a>
 
-asyncs.fetchAll(urls, null, 'json')
-	.then(results => console.dir(results))
-	.catch(err => console.error(err))
-```
+## requestJSON(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for a valid JSON response.
 
-### asyncs.fetchRace(urls, cfg, type)
+HTTP errors or invalid JSON response will cause a `Promise.reject`.
 
-Executes a race of requests for each url in the `urls` Array using the same optional `cfg` object for all. The `type` argument is an optional string to define which **@jsweb/asyncs** action will request all `urls`.
+**Export**: <code>funtion</code>  
 
-Only `urls` Array argument is mandatory, `cfg` default is `{ method: 'get' }` and `type` default is `fetch`.
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-For `type` you can use fetch (default), json, text, bool, num, float, int, xml or html.
+<a name="requestText"></a>
 
-It returns `asyncs.execRace(tasks)` and resolves or rejects with the fastest result or error.
+## requestText(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for any response and get it as text.
 
-```javascript
-const urls = [...] // a list of urls
+HTTP errors will cause a `Promise.reject`.
 
-asyncs.fetchRace(urls, null, 'text')
-	.then(results => console.dir(results))
-	.catch(err => console.error(err))
-```
+**Export**: <code>function</code>  
 
-### asyncs.json(url, cfg)
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-Executes `asyncs.fetch` and tries to parse the response as **JSON**.
+<a name="requestBlob"></a>
 
-```javascript
-asyncs.json(url, cfg)
-	.then(json => console.dir(json))
-	.catch(err => console.error(err))
-```
+## requestBlob(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for a valid Blob response.
 
-### asyncs.text(url, cfg)
+HTTP errors or not readable Blob response will cause a `Promise.reject`.
 
-Executes `asyncs.fetch` and returns resolved response as **text**.
+**Export**: <code>function</code>  
 
-```javascript
-asyncs.text(url, cfg)
-	.then(text => console.log(text))
-	.catch(err => console.error(err))
-```
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-### asyncs.bool(url, cfg)
+<a name="requestBoolean"></a>
 
-Executes `asyncs.text` and tries to parse the response as **boolean**.
+## requestBoolean(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for any response and get it as boolean.
 
-```javascript
-asyncs.bool(url, cfg)
-	.then(bool => console.log(bool))
-	.catch(err => console.error(err))
-```
+HTTP errors will cause a `Promise.reject`.
 
-### asyncs.num(url, cfg)
+**Export**: <code>function</code>  
 
-Executes `asyncs.text` and tries to parse the response as **number**.
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-```javascript
-asyncs.num(url, cfg)
-	.then(num => console.log(num))
-	.catch(err => console.error(err))
-```
+<a name="requestNumber"></a>
 
-### .float(url, cfg)
+## requestNumber(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for a valid Number response.
 
-Executes `asyncs.num` and tries to parse the reponse as **float**.
+The response can be number, string or any value that can be parsed as Number.
 
-```javascript
-asyncs.float(url, cfg)
-	.then(float => console.log(float))
-	.catch(err => console.error(err))
-```
+Invalid values will resolve as `NaN` object (not a number).
 
-### .int(url, cfg)
+HTTP errors will cause a `Promise.reject`.
 
-Executes `asyncs.num` and tries to parse the reponse as **integer**.
+**Export**: <code>function</code>  
 
-```javascript
-asyncs.int(url, cfg)
-	.then(int => console.log(int))
-	.catch(err => console.error(err))
-```
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-### .xml(url, cfg)
+<a name="requestXML"></a>
 
-Executes `asyncs.text` and tries to parse the reponse as **XML** document.
+## requestXML(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for a valid XML document response.
 
-```javascript
-asyncs.xml(url, cfg)
-	.then(xml => console.dir(xml))
-	.catch(err => console.error(err))
-```
+HTTP errors response will cause a `Promise.reject`.
 
-### .html(url, cfg)
+**Export**:   
 
-Executes `asyncs.text` and tries to parse the reponse as **HTML** document.
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>string</code> |  | 
+| [cfg] | <code>RequestInit</code> | <code>{}</code> | 
 
-```javascript
-asyncs.html(url, cfg)
-	.then(html => console.dir(html))
-	.catch(err => console.error(err))
-```
+<a name="requestHTML"></a>
+
+## requestHTML(url, [cfg]) ⇒ <code>Promise</code>
+Execute a `request` expecting for any response and get it as HTML.
+
+HTTP errors response will cause a `Promise.reject`.
+
+**Export**:   
+
+| Param | Type |
+| --- | --- |
+| url | <code>string</code> | 
+| [cfg] | <code>RequestInit</code> | 
+
