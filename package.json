@@ -57,7 +57,7 @@
     "typescript": "^3.1.1"
   },
   "dependencies": {
-    "@jsweb/params": "^3.1.2",
-    "@jsweb/truetype": "^3.0.7"
+    "@jsweb/params": "latest",
+    "@jsweb/truetype": "latest"
   }
 }
