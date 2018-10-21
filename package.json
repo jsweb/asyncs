@@ -4,7 +4,7 @@
   "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
   "main": "dist/umd.js",
   "esnext": "dist/module.js",
-  "module": "dist/module.mjs",
+  "module": "dist/module.js",
   "types": "dist/module.d.ts",
   "repository": {
     "type": "git",
@@ -28,7 +28,6 @@
     "dist:test": "npm t",
     "dist:types": "tsc --removeComments --emitDeclarationOnly",
     "dist:build": "rollup -c",
-    "dist:copy": "shx cp ./dist/module.mjs ./dist/module.js",
     "dist:docs": "npm run docs",
     "test": "run-s test:*",
     "test:lint": "tslint -p . -c tslint.json",

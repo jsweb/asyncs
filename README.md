@@ -3,8 +3,8 @@
 Simple JS module for Promise and Fetch APIs, with some useful abstraction
 
 **Create**: date 2016-06-25 03:14:48  
-**Modify**: date 2018-10-21 19:54:58  
-**Version**: 3.0.3  
+**Modify**: date 2018-10-21 20:18:19  
+**Version**: 3.0.4  
 **Author**: Alex Bruno <git.alexbr@outlook.com>  
 **Example**  
 ```js
