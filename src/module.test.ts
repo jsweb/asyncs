@@ -2,41 +2,42 @@ import { instance } from '@jsweb/truetype';
 import { strictEqual as equal } from 'assert';
 import { asap, exec, execAll, execRace, task } from './module';
 
-const tasks = [1, () => 2, exec(() => 3)];
-
-function log(...args: any[]) {
-  console.log(...args);
-}
+const fnNoArgs = () => null;
+const fnWithArgs = (...args: any[]) => args.join(' ');
+const tasks = [1, fnWithArgs(2, 3), exec(fnNoArgs)];
 
 describe('@jsweb/asyncs', () => {
   it('exec(fn, ...args) should return a Promise', () => {
-    const fn = (...args: any[]) => args.join(' ');
-    const prom = exec(fn, '     ', 'test', 'exec', 'method', 'OK', '\n').then(log);
-    equal(instance(prom), 'Promise');
+    const p1 = exec(fnNoArgs);
+    const p2 = exec(fnWithArgs, 1, 2, 3);
+
+    equal(instance(p1), 'Promise');
+    equal(instance(p2), 'Promise');
   });
 
   it('task(any) should return a Promise', () => {
-    const msg = ['     ', 'test task method OK', '\n'].join(' ');
-    const prom = task(msg).then(log);
+    const prom = task('msg');
+
     equal(instance(prom), 'Promise');
   });
 
   it('execAll(any[]) should return a Promise.all', () => {
-    const all = execAll(tasks)
-      .then((result) => ['     ', 'test execAll method OK:', result, '\n'].join(' '))
-      .then(log);
+    const all = execAll(tasks);
+
     equal(instance(all), 'Promise');
   });
 
   it('execRace(any[]) should a Promise.race', () => {
-    const race = execRace(tasks)
-      .then((result) => ['     ', 'test execRace method OK:', result, '\n'].join(' '))
-      .then(log);
+    const race = execRace(tasks);
+
     equal(instance(race), 'Promise');
   });
 
   it('asap(fn, ...args) should execute "fn(...args)" async ASAP', () => {
-    const soon = asap(log, '     ', 'test', 'asap', 'method', 'OK');
-    equal(instance(soon), 'Immediate');
+    const asap1 = asap(fnNoArgs);
+    const asap2 = asap(fnWithArgs, 1, 2, 3);
+
+    equal(instance(asap1), 'Immediate');
+    equal(instance(asap2), 'Immediate');
   });
 });

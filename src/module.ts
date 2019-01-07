@@ -32,7 +32,20 @@ export function exec(fn: (...args: any[]) => any, ...args: any[]): Promise<any> 
 }
 
 /**
- * Turn any input in a Promise to use is on asyncronous threads
+ * Execute any function asyncronously As Soon As Possible with any number of arguments.
+ *
+ * @export {function}
+ * @param {function} fn
+ * @param {arguments} args
+ * @returns {*}
+ */
+export function asap(fn: (...args: any[]) => void, ...args: any[]): any {
+  const ok = typeof setImmediate !== 'undefined';
+  return ok ? setImmediate(fn, ...args) : setTimeout(fn, 1, ...args);
+}
+
+/**
+ * Turn any input in a Promise to use it on asyncronous threads
  *
  * @export {function}
  * @param {*} input
@@ -69,19 +82,6 @@ export function execRace(...args: any[]): Promise<any> {
 }
 
 /**
- * Execute any function asyncronously As Soon As Possible with any number of arguments.
- *
- * @export {function}
- * @param {function} fn
- * @param {arguments} args
- * @returns {*}
- */
-export function asap(fn: (...args: any[]) => void, ...args: any[]): any {
-  const ok = typeof setImmediate !== 'undefined';
-  return ok ? setImmediate(fn, ...args) : setTimeout(fn, 1, ...args);
-}
-
-/**
  * Execute asyncronous HTTP requests with configurable options.
  *
  * It uses Fetch API with some useful abstractions.
@@ -105,10 +105,10 @@ export function asap(fn: (...args: any[]) => void, ...args: any[]): any {
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function request(url: string, cfg: RequestInit = {}): Promise<any> {
-  cfg.method = cfg.method ? cfg.method.toLowerCase() : 'get';
+export async function request(url: string, cfg: RequestInit | any = {}): Promise<any> {
+  cfg.method = cfg.method || 'get';
 
-  if (cfg.method === 'get') {
+  if (/get/i.test(cfg.method)) {
     const query = cfg.body ? serialize(cfg.body) : '';
 
     url += query ? `?${query}` : '';
@@ -121,18 +121,18 @@ export function request(url: string, cfg: RequestInit = {}): Promise<any> {
     if (/application\/json/i.test(ctype)) {
       cfg.body = typeof cfg.body === 'object' ? JSON.stringify(cfg.body) : cfg.body;
     } else if (/application\/x-www-form-urlencoded/i.test(ctype)) {
-      cfg.body = serialize((cfg.body as any));
+      cfg.body = serialize(cfg.body);
     } else {
       cfg.body = form(cfg.body);
     }
   }
 
-  return fetch(url, cfg).then((resp: Response | any) => {
-    if (resp.ok && resp.status >= 200 && resp.status < 300) {
-      return resp;
-    }
-    return Promise.reject(resp);
-  });
+  const resp = await fetch(url, cfg);
+
+  if (resp && resp.ok && resp.status >= 200 && resp.status < 300) {
+    return resp;
+  }
+  return Promise.reject(resp);
 }
 
 /**
@@ -193,8 +193,9 @@ export function requestRace(
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function requestJSON(url: string, cfg?: RequestInit): Promise<any> {
-  return request(url, cfg).then((resp: Response) => resp.json());
+export async function requestJSON(url: string, cfg?: RequestInit | any): Promise<any> {
+  const resp = await request(url, cfg);
+  return await resp.json();
 }
 
 /**
@@ -207,8 +208,9 @@ export function requestJSON(url: string, cfg?: RequestInit): Promise<any> {
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function requestText(url: string, cfg?: RequestInit): Promise<string> {
-  return request(url, cfg).then((resp: Response) => resp.text());
+export async function requestText(url: string, cfg?: RequestInit): Promise<string> {
+  const resp = await request(url, cfg);
+  return await resp.text();
 }
 
 /**
@@ -221,8 +223,9 @@ export function requestText(url: string, cfg?: RequestInit): Promise<string> {
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function requestBlob(url: string, cfg?: RequestInit): Promise<Blob> {
-  return request(url, cfg).then((resp: Response) => resp.blob());
+export async function requestBlob(url: string, cfg?: RequestInit): Promise<Blob> {
+  const resp = await request(url, cfg);
+  return await resp.blob();
 }
 
 /**
@@ -235,8 +238,9 @@ export function requestBlob(url: string, cfg?: RequestInit): Promise<Blob> {
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function requestBoolean(url: string, cfg?: RequestInit): Promise<boolean> {
-  return requestJSON(url, cfg).then(Boolean);
+export async function requestBoolean(url: string, cfg?: RequestInit): Promise<boolean> {
+  const resp = await requestJSON(url, cfg);
+  return Boolean(resp);
 }
 
 /**
@@ -253,8 +257,9 @@ export function requestBoolean(url: string, cfg?: RequestInit): Promise<boolean>
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function requestNumber(url: string, cfg?: RequestInit): Promise<number> {
-  return requestText(url, cfg).then(Number);
+export async function requestNumber(url: string, cfg?: RequestInit): Promise<number> {
+  const resp = await requestText(url, cfg);
+  return Number(resp);
 }
 
 /**
@@ -267,11 +272,10 @@ export function requestNumber(url: string, cfg?: RequestInit): Promise<number> {
  * @param {RequestInit} [cfg={}]
  * @returns {Promise}
  */
-export function requestXML(url: string, cfg?: RequestInit): Promise<Document> {
-  return requestText(url, cfg).then((text) => {
-    const dom = new DOMParser();
-    return dom.parseFromString(text, 'application/xml');
-  });
+export async function requestXML(url: string, cfg?: RequestInit): Promise<Document> {
+  const dom = new DOMParser();
+  const text = await requestText(url, cfg);
+  return dom.parseFromString(text, 'application/xml');
 }
 
 /**
@@ -284,9 +288,8 @@ export function requestXML(url: string, cfg?: RequestInit): Promise<Document> {
  * @param {RequestInit} [cfg]
  * @returns {Promise}
  */
-export function requestHTML(url: string, cfg?: RequestInit): Promise<Document> {
-  return requestText(url, cfg).then((text) => {
-    const dom = new DOMParser();
-    return dom.parseFromString(text, 'text/html');
-  });
+export async function requestHTML(url: string, cfg?: RequestInit): Promise<Document> {
+  const dom = new DOMParser();
+  const text = await requestText(url, cfg);
+  return dom.parseFromString(text, 'text/html');
 }

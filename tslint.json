@@ -3,12 +3,13 @@
   "extends": [
     "tslint:recommended"
   ],
+  "jsRules": {},
   "rules": {
-    "quotemark": [true, "single"]
-  },
-  "linterOptions": {
-    "exclude": [
-      "./dist/*"
+    "no-console": false,
+    "quotemark": [
+      true,
+      "single"
     ]
-  }
+  },
+  "rulesDirectory": []
 }
