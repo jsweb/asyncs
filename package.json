@@ -1,6 +1,6 @@
 {
   "name": "@jsweb/asyncs",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Simple JS module for Promise and Fetch APIs, with some useful abstraction",
   "scripts": {
     "test": "run-s test:*",
