@@ -14,88 +14,10 @@ In modern JS development ES modules are the pattern, already supported in newer 
 
 Backward compatibility is not a concern here. If you use a module bundler (like Webpack or Rollup) to transpile your code, the result will be compatible according to your setup.
 
-## Methods 
+***
 
-<dl>
-<dt><a href="#exec">exec(fn, ...args)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Excute any function asyncronously with any number of arguments.</p>
-</dd>
-<dt><a href="#asap">asap(fn, ...args)</a> ⇒ <code>*</code></dt>
-<dd><p>Execute any function asyncronously As Soon As Possible with any number of arguments.
-This method tries to use setImmediate (if available) or emulate it.</p>
-</dd>
-<dt><a href="#task">task(input, ...args)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Turn any input in a Promise to use it on asyncronous threads</p>
-</dd>
-<dt><a href="#execAll">execAll(...args)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Turn any number of arguments into asyncronous group to resolve only if all threads resolve.</p>
-</dd>
-<dt><a href="#execRace">execRace(...args)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Turn any number of arguments into asyncronous race to resolve or reject with the fastest thread.</p>
-</dd>
-<dt><a href="#request">request(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute asyncronous HTTP requests with configurable options.</p>
-<p>This method uses Fetch API with some useful abstractions.</p>
-<p>To send parameters on request, just add a <code>body</code> in <code>cfg</code> containing the object for any HTTP method request.</p>
-<p>GET requests (default), will serialize parameters into a query string.</p>
-<p>Other methods will convert parameters into FormData object if necessary.</p>
-<p>So you can also send HTML Form or FormData object for non GET requests.</p>
-<p>It is also possible to send JSON content. Just set <code>content-type</code> to <code>application/json</code> at <code>cfg.headers</code>.</p>
-<p>Then your <code>cfg.body</code> literal object will be serialized using <code>JSON.stringify</code>.</p>
-<p>The promise returned also checks HTTP response. Any status &gt;= 300 will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestAll">requestAll(urls, cfg, resp)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Use <code>execAll</code> to make a <code>request</code> for each <code>urls</code> using the same <code>cfg</code> and <code>resp</code> type for all.</p>
-<p>The result Promise resolves only if all requests resolve.</p>
-<p>If any request fails, it will cause an entire <code>Promise.reject</code>.</p>
-<p>Possible response types are: response (default), json, text, blob, boolean, number, xml and html.</p>
-</dd>
-<dt><a href="#requestRace">requestRace(urls, cfg, resp)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Use <code>execRace</code> to make a <code>request</code> race with all <code>urls</code> using the same <code>cfg</code> and <code>resp</code> type for all.</p>
-<p>The result Promise resolves or rejects with the fastest request.</p>
-<p>Possible response types are: response (default), json, text, blob, boolean, number, xml and html.</p>
-</dd>
-<dt><a href="#requestJSON">requestJSON(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for a valid JSON response.</p>
-<p>HTTP errors or invalid JSON response will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestText">requestText(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for any response and get it as text.</p>
-<p>HTTP errors will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestBlob">requestBlob(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for a valid Blob response.</p>
-<p>HTTP errors or not readable Blob response will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestBoolean">requestBoolean(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for any response and get it as boolean.</p>
-<p>HTTP errors will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestNumber">requestNumber(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for a valid Number response.</p>
-<p>The response can be number, string or any value that can be parsed as Number.</p>
-<p>Invalid values will resolve as <code>NaN</code> (not a number).</p>
-<p>HTTP errors will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestXML">requestXML(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for a valid XML document response.</p>
-<p>HTTP errors response will cause a <code>Promise.reject</code>.</p>
-</dd>
-<dt><a href="#requestHTML">requestHTML(url, cfg)</a> ⇒ <code>Promise</code></dt>
-<dd><p>Execute a <code>request</code> expecting for any response and get it as HTML.</p>
-<p>HTTP errors response will cause a <code>Promise.reject</code>.</p>
-</dd>
-</dl>
-
-<a name="@jsweb/asyncs"></a>
-
-## @jsweb/asyncs
-Simple JS module for Promise and Fetch APIs, with some useful abstraction
-
-**Create**: date 2016-06-25 03:14:48  
-**Modify**: date 2020-06-13 23:13:45  
-**Version**: 4.0.0  
-**Author**: Alex Bruno <git.alexbr@outlook.com>  
+## Methods
+  
 <a name="exec"></a>
 
 ## exec(fn, ...args) ⇒ <code>Promise</code>

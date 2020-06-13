@@ -11,7 +11,7 @@ const json = readFileSync(packjson, 'utf8')
 const pack = JSON.parse(json)
 
 const content = data
-  .split('## Functions')[1]
+  .split(pack.author)[1]
   .replace(/\*\*Kind\*\*: global \w+\s+/g, '')
 
 const result = `# ${pack.name}
@@ -30,6 +30,9 @@ In modern JS development ES modules are the pattern, already supported in newer 
 
 Backward compatibility is not a concern here. If you use a module bundler (like Webpack or Rollup) to transpile your code, the result will be compatible according to your setup.
 
-## Methods ${content}`
+***
+
+## Methods
+${content}`
 
 writeFileSync(readme, result)
