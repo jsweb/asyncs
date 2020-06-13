@@ -1,10 +1,10 @@
 /**
  * @name @jsweb/asyncs
- * @version 4.0.0
+ * @version 4.0.1
  * @desc Simple JS module for Promise and Fetch APIs, with some useful abstraction
  * @author Alex Bruno <git.alexbr@outlook.com>
  * @create date 2016-06-25 03:14:48
- * @modify date 2020-06-13 23:21:49
+ * @modify date 2020-06-13 23:21:59
  */
 import { serialize, form } from './jsweb-packs/unpkg/params.js';
 import { is, isFunction } from './jsweb-packs/unpkg/truetype.js';
