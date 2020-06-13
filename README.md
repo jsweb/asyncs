@@ -93,8 +93,8 @@ This method tries to use setImmediate (if available) or emulate it.</p>
 Simple JS module for Promise and Fetch APIs, with some useful abstraction
 
 **Create**: date 2016-06-25 03:14:48  
-**Modify**: date 2020-06-13 23:13:29  
-**Version**: 3.0.7  
+**Modify**: date 2020-06-13 23:13:45  
+**Version**: 4.0.0  
 **Author**: Alex Bruno <git.alexbr@outlook.com>  
 <a name="exec"></a>
 
