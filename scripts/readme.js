@@ -22,6 +22,8 @@ ${pack.description}.
 ![es6-module](https://img.shields.io/badge/es6-module-blue.svg?style=for-the-badge)
 ![tests-mocha](https://img.shields.io/badge/tests-mocha-blue.svg?style=for-the-badge)
 
+See tests at [https://asyncs.jsweb.app](https://asyncs.jsweb.app)
+
 ## New in v4.0.0
 
 Now, its a full ES module, there is no UMD or CommonJS version.
