@@ -1,9 +1,6 @@
-import typescript from 'rollup-plugin-typescript'
-import resolve from 'rollup-plugin-node-resolve'
-import esmin from 'rollup-plugin-esmin'
 import pack from './package.json'
 
-const name = pack.name.split('/')[1]
+const external = (name) => `./jsweb-packs/unpkg/${name}.js`
 const modify = new Date().toJSON().split('.')[0].replace('T', ' ')
 const banner = `/**
  * @name ${pack.name}
@@ -12,27 +9,14 @@ const banner = `/**
  * @author ${pack.author}
  * @create date 2016-06-25 03:14:48
  * @modify date ${modify}
- * @example
- * import { requestJSON, requestAll, requestRace } from '@jsweb/asyncs'
  */`
 
-export default [{
-  input: 'src/module.ts',
-  plugins: [typescript()],
-  external: ['@jsweb/params', '@jsweb/truetype'],
+export default {
+  input: 'src/index.js',
+  external: ['params', 'truetype'].map(external),
   output: {
-    name,
     banner,
     format: 'esm',
-    file: 'dist/module.js'
-  }
-}, {
-  input: 'src/umd.ts',
-  plugins: [resolve(), typescript(), esmin()],
-  output: {
-    name,
-    banner,
-    format: 'umd',
-    file: 'dist/umd.js'
-  }
-}]
+    file: 'index.js',
+  },
+}
