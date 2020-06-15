@@ -102,7 +102,7 @@ The promise returned also checks HTTP response. Any status >= 300 will cause a `
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestAll"></a>
@@ -120,9 +120,9 @@ Possible response types are: response (default), json, text, blob, boolean, numb
 
 | Param | Type | Default |
 | --- | --- | --- |
-| urls | <code>Array.&lt;string&gt;</code> |  | 
+| urls | <code>Array.&lt;String&gt;</code> |  | 
 | cfg | <code>RequestInit</code> |  | 
-| resp | <code>string</code> | <code>&quot;response&quot;</code> | 
+| resp | <code>String</code> | <code>response</code> | 
 
 <a name="requestRace"></a>
 
@@ -137,9 +137,9 @@ Possible response types are: response (default), json, text, blob, boolean, numb
 
 | Param | Type | Default |
 | --- | --- | --- |
-| urls | <code>Array.&lt;string&gt;</code> |  | 
+| urls | <code>Array.&lt;String&gt;</code> |  | 
 | cfg | <code>RequestInit</code> |  | 
-| resp | <code>string</code> | <code>&quot;response&quot;</code> | 
+| resp | <code>String</code> | <code>response</code> | 
 
 <a name="requestJSON"></a>
 
@@ -152,7 +152,7 @@ HTTP errors or invalid JSON response will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestText"></a>
@@ -166,7 +166,7 @@ HTTP errors will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestBlob"></a>
@@ -180,7 +180,7 @@ HTTP errors or not readable Blob response will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestBoolean"></a>
@@ -194,7 +194,7 @@ HTTP errors will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestNumber"></a>
@@ -212,7 +212,7 @@ HTTP errors will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestXML"></a>
@@ -226,7 +226,7 @@ HTTP errors response will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 
 <a name="requestHTML"></a>
@@ -240,6 +240,6 @@ HTTP errors response will cause a `Promise.reject`.
 
 | Param | Type |
 | --- | --- |
-| url | <code>string</code> | 
+| url | <code>String</code> | 
 | cfg | <code>RequestInit</code> | 
 

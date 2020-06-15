@@ -4,7 +4,7 @@
  * @desc Simple JS module for Promise and Fetch APIs, with some useful abstraction
  * @author Alex Bruno <git.alexbr@outlook.com>
  * @create date 2016-06-25 03:14:48
- * @modify date 2020-06-13 23:32:09
+ * @modify date 2020-06-15 21:11:57
  */
 import { serialize, form } from './jsweb-packs/unpkg/params.js';
 import { is, isFunction } from './jsweb-packs/unpkg/truetype.js';
@@ -23,7 +23,7 @@ const map = {
 /**
  * Excute any function asyncronously with any number of arguments.
  *
- * @param {function} fn
+ * @param {Function} fn
  * @param {arguments} args
  * @returns {Promise} Promise
  */
@@ -42,7 +42,7 @@ function exec(fn, ...args) {
  * Execute any function asyncronously As Soon As Possible with any number of arguments.
  * This method tries to use setImmediate (if available) or emulate it.
  *
- * @param {function} fn
+ * @param {Function} fn
  * @param {arguments} args
  * @returns {*}
  */
@@ -107,7 +107,7 @@ function execRace(...args) {
  *
  * The promise returned also checks HTTP response. Any status >= 300 will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -138,6 +138,8 @@ async function request(url, cfg = {}) {
     cfg.headers['content-type'] = 'multipart/form-data';
   }
 
+  if (/(get|head)/i.test(cfg.method)) delete cfg.body;
+
   try {
     const resp = await fetch(url, cfg);
     return resp.ok ? resp : Promise.reject(resp)
@@ -155,9 +157,9 @@ async function request(url, cfg = {}) {
  *
  * Possible response types are: response (default), json, text, blob, boolean, number, xml and html.
  *
- * @param {string[]} urls
+ * @param {String[]} urls
  * @param {RequestInit} cfg
- * @param {string} resp
+ * @param {String} resp
  * @returns {Promise} Promise
  */
 function requestAll(urls = [], cfg = {}, resp = 'response') {
@@ -172,9 +174,9 @@ function requestAll(urls = [], cfg = {}, resp = 'response') {
  *
  * Possible response types are: response (default), json, text, blob, boolean, number, xml and html.
  *
- * @param {string[]} urls
+ * @param {String[]} urls
  * @param {RequestInit} cfg
- * @param {string} resp
+ * @param {String} resp
  * @returns {Promise} Promise
  */
 function requestRace(urls = [], cfg = {}, resp = 'response') {
@@ -187,7 +189,7 @@ function requestRace(urls = [], cfg = {}, resp = 'response') {
  *
  * HTTP errors or invalid JSON response will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -205,7 +207,7 @@ async function requestJSON(url, cfg = {}) {
  *
  * HTTP errors will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -223,7 +225,7 @@ async function requestText(url, cfg = {}) {
  *
  * HTTP errors or not readable Blob response will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -241,7 +243,7 @@ async function requestBlob(url, cfg = {}) {
  *
  * HTTP errors will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -263,7 +265,7 @@ async function requestBoolean(url, cfg = {}) {
  *
  * HTTP errors will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -281,7 +283,7 @@ async function requestNumber(url, cfg = {}) {
  *
  * HTTP errors response will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */
@@ -300,7 +302,7 @@ async function requestXML(url, cfg = {}) {
  *
  * HTTP errors response will cause a `Promise.reject`.
  *
- * @param {string} url
+ * @param {String} url
  * @param {RequestInit} cfg
  * @returns {Promise} Promise
  */

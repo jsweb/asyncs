@@ -1,3 +1,4 @@
+import replace from '@rollup/plugin-replace'
 import pack from './package.json'
 
 const external = (name) => `./jsweb-packs/unpkg/${name}.js`
@@ -14,6 +15,12 @@ const banner = `/**
 export default {
   input: 'src/index.js',
   external: ['params', 'truetype'].map(external),
+  plugins: [
+    replace({
+      delimiters: ['', ''],
+      '../': './',
+    }),
+  ],
   output: {
     banner,
     format: 'esm',
